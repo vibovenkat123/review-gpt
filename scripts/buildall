@@ -1,0 +1,9 @@
+#!/bin/sh
+env GOOS="darwin" GOARCH="arm64" go build -o bin/codegpt-macos-arm64 cmd/codegpt/codegpt.go
+env GOOS="darwin" GOARCH="amd64" go build -o bin/codegpt-macos-amd64 cmd/codegpt/codegpt.go
+env GOOS="linux" GOARCH="amd64" go build  -o bin/codegpt-linux-amd64 cmd/codegpt/codegpt.go
+env GOOS="linux" GOARCH="386" go build -o bin/codegpt-linux-386 cmd/codegpt/codegpt.go
+env GOOS="linux" GOARCH="arm" go build -o bin/codegpt-linux-arm cmd/codegpt/codegpt.go
+env GOOS="linux" GOARCH="arm64" go build -o bin/codegpt-linux-arm64 cmd/codegpt/codegpt.go
+env GOOS="windows" GOARCH="386" go build -o bin/codegpt-windows-386 cmd/codegpt/codegpt.go
+env GOOS="windows" GOARCH="amd64" go build -o bin/codegpt-windows-amd64 cmd/codegpt/codegpt.go
