@@ -7,16 +7,19 @@ import (
 	"io/ioutil"
 	"net/http"
 	"os"
+    "bufio"
 )
 
 type Body struct {
 	Model         string  `json:"model"`
 	Prompt        string  `json:"prompt"`
-	Temperature   int     `json:"temperature"`
+    Temperature   int     `json:"temperature"`
 	Max_Tokens    int     `json:"max_tokens"`
 	Top_P         int     `json:"top_p"`
 	Frequence_Pen float32 `json:"frequency_penalty"`
 	Presence_Pen  float32 `json:"presence_penalty"`
+    Best_Of int `json:"best_of"`
+    Suffix string `json:"suffix"`
 }
 type APIText struct {
 	Text         string  `json:"text"`
@@ -31,16 +34,16 @@ type APIUsage struct {
 }
 type APIRequest struct {
 	ID      string    `json:"id"`
-	Object  string    `json:"object"`
-	Created int       `json:"created"`
+	Object  string    `json:"object"` 
+    Created int       `json:"created"`
 	Choices []APIText `json:"choices"`
 	Usage   APIUsage  `json:"usage"`
 }
-
-func Request() {
+func Call(promptText string) {
 	pwd := os.Getenv("OPENAI_KEY")
 	url := "https://api.openai.com/v1/completions"
-	prompt := "package expenseFunctions\n\nfunc Validate(id *string, name *string, spent *int) (idIsGood bool, nameIsGood bool, spentIsGood bool) {\n\tidIsGood = false\n\tnameIsGood = false\n\tspentIsGood = false\n\tif id != nil && len(*id) == 36 {\n\t\tidIsGood = true\n\t}\n\tif name != nil && len(*name) > 0 {\n\t\tnameIsGood = true\n\t}\n\tif spent != nil && *spent >= 0 {\n\t\tspentIsGood = true\n\t}\n\treturn idIsGood, nameIsGood, spentIsGood\n}\nFrom a code reviewer's perspective, what is your comments on the code above, and what should be done differently? Do not include any code in your answer.\n\n"
+	prompt := fmt.Sprintf("%v\nI will not include more code below, and if the code above is good, I will not write anything. As a code reviewer, I think that you could improve this code by doing the following improvements:\n", promptText)
+    suffix := "\n\nThats all the improvements!!"
 	params := Body{
 		Model:         "code-davinci-002",
 		Prompt:        prompt,
@@ -48,7 +51,9 @@ func Request() {
 		Max_Tokens:    256,
 		Top_P:         1,
 		Frequence_Pen: 1.27,
-		Presence_Pen:  0.0,
+		Presence_Pen:  0.58,
+        Best_Of: 3,
+        Suffix: suffix,
 	}
 	jsonParams, err := json.Marshal(params)
 	if err != nil {
@@ -64,12 +69,35 @@ func Request() {
 		panic(err)
 	}
 	defer resp.Body.Close()
-	fmt.Println("response Status:", resp.Status)
 	body, _ := ioutil.ReadAll(resp.Body)
 	apiReq := APIRequest{}
 	json.Unmarshal([]byte(string(body)), &apiReq)
 	choices := apiReq.Choices
 	for _, c := range choices {
-		fmt.Println(c.Text)
+        fmt.Println("A:", c.Text)
 	}
+}
+func Request() {
+    dir := ".rgpt"
+    files, err := ioutil.ReadDir(dir)
+    if err != nil {
+        panic("Run `rgptsetup commit` before running")
+    }
+    for _, file := range files {
+        fileContent := ""
+        f, err := os.Open(fmt.Sprintf("%v/%v", dir, file.Name()))
+        if err != nil {
+            panic(err)
+        }
+        defer f.Close()
+        scanner := bufio.NewScanner(f)
+        for scanner.Scan() {
+            fileContent += scanner.Text()
+            fileContent += "\n"
+        }
+        if err := scanner.Err(); err != nil {
+           panic(err)
+        }
+        Call(fileContent)
+    }
 }

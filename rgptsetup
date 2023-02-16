@@ -1,0 +1,55 @@
+#!/bin/bash
+commit() {
+    if ! commits=$(git rev-list --all --count 2> /dev/null) 
+    then
+        echo "Must have a github repo initialized to setup review-gpt"
+        exit 1
+    fi
+    number=0
+    if [ $commits -eq 0 ]
+    then
+        echo "No Commits Yet"
+        exit 1
+    fi
+    dir="./.rgpt"
+    branch=$2
+    if [ -z "$branch" ]
+    then
+        branch=$(git rev-parse --abbrev-ref HEAD)
+    fi
+    hash=$(git rev-parse origin/$branch)
+    files=$(git diff --name-only $hash)
+
+    setup() {
+        if [ -d $dir ]
+        then
+            rm -r $dir
+        fi
+        mkdir $dir
+        if ! grep -q ".rgpt" .gitignore; then
+            echo ".rgpt" >> .gitignore
+        fi
+    }
+
+    parse_file() {
+        ((number++))
+        loc="$dir/output-$number-$(basename ${1}).txt"
+        git show $hash:$1  > $loc
+    }
+    setup
+    while IFS= read -r line
+    do
+        parse_file $line
+    done < <(printf '%s\n' "$files")
+}
+case $1 in 
+    "commit" | "commits")
+        commit
+        ;;
+    "")
+        # TODO: Call Merge Function
+        ;;
+    *)
+        echo "Invalid Argument"
+        ;;
+esac
