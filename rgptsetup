@@ -19,7 +19,11 @@ commit() {
     fi
     hash=$(git rev-parse origin/$branch)
     files=$(git diff --name-only $hash)
-
+    if [ -z "$files" ]
+    then
+        echo "No differences between last commit and local changes"
+        exit 1
+    fi
     setup() {
         if [ -d $dir ]
         then
