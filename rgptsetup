@@ -38,7 +38,7 @@ commit() {
     parse_file() {
         ((number++))
         loc="$dir/output-$number-$(basename ${1}).txt"
-        git show $hash:$1  > $loc
+        cat $1  > $loc
     }
     setup
     while IFS= read -r line

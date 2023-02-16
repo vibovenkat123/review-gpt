@@ -42,13 +42,13 @@ type APIRequest struct {
 func Call(promptText string) {
 	pwd := os.Getenv("OPENAI_KEY")
 	url := "https://api.openai.com/v1/completions"
-	prompt := fmt.Sprintf("%v\nI will not include more code below, and if the code above is good, I will not write anything. As a code reviewer, I think that you could improve this code by doing the following improvements:\n", promptText)
+	prompt := fmt.Sprintf("%v\nI WILL NOT write more code below, and if the code above is good, I will not write anything. As a code reviewer, I think that you could improve this code by doing the following improvements:\n", promptText)
     suffix := "\n\nThats all the improvements!!"
 	params := Body{
 		Model:         "code-davinci-002",
 		Prompt:        prompt,
 		Temperature:   0,
-		Max_Tokens:    256,
+		Max_Tokens:    300,
 		Top_P:         1,
 		Frequence_Pen: 1.27,
 		Presence_Pen:  0.58,

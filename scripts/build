@@ -1,2 +1,2 @@
 #!/bin/sh
-go build -o bin/reviewgpt cmd/reviewgpt/reviewgpt.go
+go build -o bin/rgpt cmd/reviewgpt/reviewgpt.go

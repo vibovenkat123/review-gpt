@@ -1,10 +1,10 @@
 #!/bin/sh
-env GOOS="darwin" GOARCH="arm64" go build -o bin/reviewgpt-macos-arm64 cmd/reviewgpt/reviewgpt.go
-env GOOS="darwin" GOARCH="amd64" go build -o bin/reviewgpt-macos-amd64 cmd/reviewgpt/reviewgpt.go
-env GOOS="linux" GOARCH="amd64" go build  -o bin/reviewgpt-linux-amd64 cmd/reviewgpt/reviewgpt.go
-env GOOS="linux" GOARCH="386" go build -o bin/reviewgpt-linux-386 cmd/reviewgpt/reviewgpt.go
-env GOOS="linux" GOARCH="arm" go build -o bin/reviewgpt-linux-arm cmd/reviewgpt/reviewgpt.go
-env GOOS="linux" GOARCH="arm64" go build -o bin/reviewgpt-linux-arm64 cmd/reviewgpt/reviewgpt.go
-env GOOS="windows" GOARCH="386" go build -o bin/reviewgpt-windows-386 cmd/reviewgpt/reviewgpt.go
-env GOOS="windows" GOARCH="amd64" go build -o bin/reviewgpt-windows-amd64 cmd/reviewgpt/reviewgpt.go
-go build -o bin/reviewgpt cmd/reviewgpt/reviewgpt.go
+env GOOS="darwin" GOARCH="arm64" go build -o bin/rgpt-macos-arm64 cmd/reviewgpt/reviewgpt.go
+env GOOS="darwin" GOARCH="amd64" go build -o bin/rgpt-macos-amd64 cmd/reviewgpt/reviewgpt.go
+env GOOS="linux" GOARCH="amd64" go build  -o bin/rgpt-linux-amd64 cmd/reviewgpt/reviewgpt.go
+env GOOS="linux" GOARCH="386" go build -o bin/rgpt-linux-386 cmd/reviewgpt/reviewgpt.go
+env GOOS="linux" GOARCH="arm" go build -o bin/rgpt-linux-arm cmd/reviewgpt/reviewgpt.go
+env GOOS="linux" GOARCH="arm64" go build -o bin/rgpt-linux-arm64 cmd/reviewgpt/reviewgpt.go
+env GOOS="windows" GOARCH="386" go build -o bin/rgpt-windows-386 cmd/reviewgpt/reviewgpt.go
+env GOOS="windows" GOARCH="amd64" go build -o bin/rgpt-windows-amd64 cmd/reviewgpt/reviewgpt.go
+go build -o bin/rgpt cmd/reviewgpt/reviewgpt.go
