@@ -31,4 +31,24 @@ foo@bar:~$ rgptsetup commits
 
 Script coming soon, for now just delete the directory and the path commands
 
+# Actual CLI
 
+## Prebuilt Binaries
+
+1. Go to the [releases page](https://github.com/vibovenkat123/review-gpt/releases) and download the right binary
+
+2. Add the binary file to your path
+
+## From source
+
+1. Have [Go](https://go.dev) installed
+
+2. Clone this repo
+
+3. Build the binaries 
+
+```console
+foo@bar:~$ make build
+```
+
+4. Add them to your path
