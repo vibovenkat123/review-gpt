@@ -4,6 +4,7 @@ import (
 	"github.com/vibovenkat123/review-gpt/pkg/request"
     "flag"
     "os"
+    "log"
     "os/exec"
 )
 var action  request.Action
@@ -12,7 +13,7 @@ func main() {
     flag.Parse()
     setupPath, err := exec.LookPath("rgptsetup")
     if err != nil {
-        panic("Set up rgptsetup in order to use rgpt, see instructions in INSTALLATION.md for more info")
+        log.Fatalln("Set up rgptsetup in order to use rgpt, see instructions in INSTALLATION.md for more info")
     }
     cmd := &exec.Cmd{
         Path: setupPath,
@@ -25,10 +26,11 @@ func main() {
     } else if action == request.Merge {
         cmd.Args[1] = "merge" 
     } else {
-        panic("enter right arguments")
+        log.Fatalln("enter right arguments")
     }
     if err := cmd.Run(); err != nil {
-        panic(err)
+        log.Fatalln(err)
     }
+
 	request.Request()
 }

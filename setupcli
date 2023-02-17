@@ -1,0 +1,8 @@
+#!/bin/bash
+if ! [[ -f ".env" ]]; then
+    echo "Must set API key before running, see INSTALLATION.md for details"
+    exit 1
+fi
+cp .env ~/.rgpt.env
+sudo cp rgptsetup /usr/local/bin
+echo "success"

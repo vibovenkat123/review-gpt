@@ -34,9 +34,14 @@ commit() {
             echo ".rgpt" >> .gitignore
         fi
     }
-
     parse_file() {
         ((number++))
+        if ! test -f "$1"
+        then
+            return 0
+        fi
+        IFS="|"
+        value=$(basename ${1})
         loc="$dir/output-$number-$(basename ${1}).txt"
         cat $1  > $loc
     }

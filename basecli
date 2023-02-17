@@ -1,0 +1,14 @@
+#!/bin/bash
+if [ -z ${RGPTPATH_BIN+x} ]
+then
+    echo "You need to add the variable of your bin file"
+    echo "See the INSTALLATION.md for more details"
+    exit 1
+fi
+if ! sudo cp $RGPTPATH_BIN /usr/local/bin
+then
+    echo "Wrong binary path"
+    echo "Binary path set to $RGPTPATH_BIN"
+    exit 1
+fi
+echo "success"
