@@ -1,6 +1,8 @@
-package request;
-type Action  = string
+package request
+
+type Action = string
+
 const (
-    Commit Action = "commit"
-    Merge Action = "merge"
+	Commit Action = "commit"
+	Merge  Action = "merge"
 )

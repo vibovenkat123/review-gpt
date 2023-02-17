@@ -1,27 +1,27 @@
 package request
 
 import (
+	"bufio"
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github.com/joho/godotenv"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
-    "bufio"
-    "github.com/joho/godotenv"
-    "log"
 )
 
 type Body struct {
 	Model         string  `json:"model"`
 	Prompt        string  `json:"prompt"`
-    Temperature   int     `json:"temperature"`
+	Temperature   int     `json:"temperature"`
 	Max_Tokens    int     `json:"max_tokens"`
 	Top_P         int     `json:"top_p"`
 	Frequence_Pen float32 `json:"frequency_penalty"`
 	Presence_Pen  float32 `json:"presence_penalty"`
-    Best_Of int `json:"best_of"`
-    Suffix string `json:"suffix"`
+	Best_Of       int     `json:"best_of"`
+	Suffix        string  `json:"suffix"`
 }
 type APIText struct {
 	Text         string  `json:"text"`
@@ -36,20 +36,21 @@ type APIUsage struct {
 }
 type APIRequest struct {
 	ID      string    `json:"id"`
-	Object  string    `json:"object"` 
-    Created int       `json:"created"`
+	Object  string    `json:"object"`
+	Created int       `json:"created"`
 	Choices []APIText `json:"choices"`
 	Usage   APIUsage  `json:"usage"`
 }
+
 func Call(promptText string) {
-    err := godotenv.Load(fmt.Sprintf("%v/.rgpt.env", os.Getenv("HOME")))
-    if err != nil {
-        log.Fatalln(err)
-//        log.Fatalln("Env file not found, Did you forget to save it? Look in INSTALLATION.md for more details")
-    }
+	err := godotenv.Load(fmt.Sprintf("%v/.rgpt.env", os.Getenv("HOME")))
+	if err != nil {
+		log.Fatalln(err)
+		//        log.Fatalln("Env file not found, Did you forget to save it? Look in INSTALLATION.md for more details")
+	}
 	pwd := os.Getenv("OPENAI_KEY")
 	url := "https://api.openai.com/v1/completions"
-    promptInstruction := "From a code reviewer's perspective, what is your improvements on the code above, and what should be done differently? Do not include any code in your answer.\n/*"
+	promptInstruction := "From a code reviewer's perspective, what is your improvements on the code above, and what should be done differently? Do not include any code in your answer.\n/*"
 	prompt := fmt.Sprintf("%v\n%v", promptText, promptInstruction)
 	params := Body{
 		Model:         "code-davinci-002",
@@ -59,7 +60,7 @@ func Call(promptText string) {
 		Top_P:         1,
 		Frequence_Pen: 1.27,
 		Presence_Pen:  0.58,
-        Best_Of: 3,
+		Best_Of:       3,
 	}
 	jsonParams, err := json.Marshal(params)
 	if err != nil {
@@ -80,30 +81,30 @@ func Call(promptText string) {
 	json.Unmarshal([]byte(string(body)), &apiReq)
 	choices := apiReq.Choices
 	for _, c := range choices {
-        fmt.Println("A:", c.Text)
+		fmt.Println("A:", c.Text)
 	}
 }
 func Request() {
-    dir := ".rgpt"
-    files, err := ioutil.ReadDir(dir)
-    if err != nil {
-        log.Fatalln("Run `rgptsetup commit` before running")
-    }
-    for _, file := range files {
-        fileContent := ""
-        f, err := os.Open(fmt.Sprintf("%v/%v", dir, file.Name()))
-        if err != nil {
-            log.Fatalln(err)
-        }
-        defer f.Close()
-        scanner := bufio.NewScanner(f)
-        for scanner.Scan() {
-            fileContent += scanner.Text()
-            fileContent += "\n"
-        }
-        if err := scanner.Err(); err != nil {
-           log.Fatalln(err)
-        }
-        Call(fileContent)
-    }
+	dir := ".rgpt"
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		log.Fatalln("Run `rgptsetup commit` before running")
+	}
+	for _, file := range files {
+		fileContent := ""
+		f, err := os.Open(fmt.Sprintf("%v/%v", dir, file.Name()))
+		if err != nil {
+			log.Fatalln(err)
+		}
+		defer f.Close()
+		scanner := bufio.NewScanner(f)
+		for scanner.Scan() {
+			fileContent += scanner.Text()
+			fileContent += "\n"
+		}
+		if err := scanner.Err(); err != nil {
+			log.Fatalln(err)
+		}
+		Call(fileContent)
+	}
 }
