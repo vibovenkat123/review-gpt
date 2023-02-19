@@ -10,6 +10,6 @@ This tool is by no means finished. It has just been started. If you would like t
 
 See [INSTALLATION.md](/INSTALLATION.md) for info on how to install
 
-# HELP WANTED
+# info
 
-At the current state, the prompts I am using for codex are not giving accurate results. I am debating whether I should switch to gpt 3 or continue with codex. I anyone knows the prompt I should use, email me at <vibovenkat@gmail.com>
+See [INFO.md](/INFO.md) for information about the CLI

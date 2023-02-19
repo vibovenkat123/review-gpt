@@ -21,7 +21,7 @@ func main() {
     flag.StringVar(&model, "m", "text-davinci-003", "The model for GPT (see USAGE.md for more details)")
     flag.StringVar(&typeof, "type", "codex", "The type of the model (gpt | codex)")
     flag.BoolVar(&strict, "strict", false, "If it is on strict mode or not (see USAGE.md for more details)")
-    flag.IntVar(&maxtokens, "max", len(input) + 200, "The length of the max tokens (see USAGE.md for more details)")
+    flag.IntVar(&maxtokens, "max", (len(input) + 200)/3, "The length of the max tokens (see USAGE.md for more details)")
     flag.Parse()
     log.Println(input, file, model, typeof, strict, maxtokens)
     if len(input) == 0 || len(file) == 0 {
