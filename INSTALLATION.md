@@ -1,31 +1,3 @@
-
-# Setup CLI (required)
-
-## Clone the repo
-
-```console
-foo@bar:~$ git clone git@github.com:vibovenkat123/review-gpt.git ~/.rgpt
-```
-NOTE: For a standard install, it is recommended you clone to ~/.rgpt for tidiness
-## Set the environment variable
-Setup the environment variable in the file .env.example
-
-Then move it to the file .env 
-
-```console
-foo@bar:~/.rgpt$ mv .env.example .env
-```
-
-## Set up your path 
-
-```console
-foo@bar:~/.rgpt$ ./setupcli
-Password: 
-success
-```
-
-It needs sudo privillegas to copy it to your PATH
-
 # Actual CLI (required)
 
 ## Prebuilt Binaries
@@ -44,10 +16,17 @@ foo@bar:~$ mv rgpt-os-arch rgpt
 foo@bar:~$ export RGPTPATH_BIN="/path/to/binary/file"
 ```
 
-4. Add it to your path (In git repo)
+4. Add it to your path 
+
+### In git repo
 
 ```console
 foo:~/.rgpt$ ./basecli
+```
+### Outside
+
+```console
+foo:~$ sudo cp rgpt /usr/local/bin
 ```
 
 ## From source
@@ -71,10 +50,8 @@ To update the git repo, run `make update` in the directory
 
 # Usage
 
-For now, rgpt only supports commits
-
-To use commits:
+To use rgpt:
 
 ```console
-foo@bar:~/random/git/repo$ rgpt --action commits
+foo@bar:~/random/git/repo$ rgpt --i "$(git diff file.txt)" --f "$(git show file.txt)"
 ```

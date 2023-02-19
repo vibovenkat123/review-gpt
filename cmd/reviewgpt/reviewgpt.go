@@ -2,37 +2,30 @@ package main
 
 import (
 	"flag"
-	"github.com/vibovenkat123/review-gpt/pkg/request"
+//	"github.com/vibovenkat123/review-gpt/pkg/request"
 	"log"
-	"os"
-	"os/exec"
 )
 
-var action request.Action
-
+var input string
+var file string
+var model string
+var typeof string
+var strict bool
+var maxtokens int
 func main() {
-	flag.StringVar(&action, "action", "merge", "The action you want to do (commit | merge)")
-	flag.Parse()
-	setupPath, err := exec.LookPath("rgptsetup")
-	if err != nil {
-		log.Fatalln("Set up rgptsetup in order to use rgpt, see instructions in INSTALLATION.md for more info")
-	}
-	cmd := &exec.Cmd{
-		Path:   setupPath,
-		Args:   []string{setupPath, "invalid"},
-		Stdout: os.Stdout,
-		Stderr: os.Stderr,
-	}
-	if action == request.Commit {
-		cmd.Args[1] = "commits"
-	} else if action == request.Merge {
-		cmd.Args[1] = "merge"
-	} else {
-		log.Fatalln("enter right arguments")
-	}
-	if err := cmd.Run(); err != nil {
-		log.Fatalln(err)
-	}
-
-	request.Request()
+    flag.StringVar(&input, "input", "", "The input (git diff file.txt)")
+    flag.StringVar(&input, "i", "", "The input (git diff file.txt)")
+    flag.StringVar(&file, "file", "", "The original file (git show HEAD:file.txt)")
+    flag.StringVar(&file, "f", "", "The original file (git show HEAD:file.txt)")
+    flag.StringVar(&model, "model", "text-davinci-003", "The model for GPT (see USAGE.md for more details)")
+    flag.StringVar(&model, "m", "text-davinci-003", "The model for GPT (see USAGE.md for more details)")
+    flag.StringVar(&typeof, "type", "codex", "The type of the model (gpt | codex)")
+    flag.BoolVar(&strict, "strict", false, "If it is on strict mode or not (see USAGE.md for more details)")
+    flag.IntVar(&maxtokens, "max", len(input) + 200, "The length of the max tokens (see USAGE.md for more details)")
+    flag.Parse()
+    log.Println(input, file, model, typeof, strict, maxtokens)
+    if len(input) == 0 || len(file) == 0 {
+        log.Fatalln("Enter an argument for --file or --input")
+    }
+//	request.Request(input, file)
 }
