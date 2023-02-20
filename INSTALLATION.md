@@ -1,4 +1,26 @@
-# Actual CLI (required)
+# CLI
+
+## Clone the repo
+```console
+foo@bar:~$ git clone git@github.com:vibovenkat123/review-gpt.git ~/.rgpt
+```
+### NOTE: For tidiness, it is highly recommended you install the repo to `~/.rgpt`, unless if you are going to work on this
+
+## Set the environment variable (In git repo)
+
+Setup the environment variable in the file .env.example
+
+Then move it to the file .env 
+
+```console
+foo@bar:~/.rgpt$ mv .env.example .env
+```
+
+Then copy the file to ~/.rgpt.env
+
+```console
+foo@bar:~/.rgpt$ cp .env ~/.rgpt.env
+```
 
 ## Prebuilt Binaries
 
@@ -16,17 +38,12 @@ foo@bar:~$ mv rgpt-os-arch rgpt
 foo@bar:~$ export RGPTPATH_BIN="/path/to/binary/file"
 ```
 
-4. Add it to your path 
+4. Add the binaries to your path 
 
 ### In git repo
 
 ```console
 foo:~/.rgpt$ ./basecli
-```
-### Outside
-
-```console
-foo:~$ sudo cp rgpt /usr/local/bin
 ```
 
 ## From source
