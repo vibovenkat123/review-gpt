@@ -20,7 +20,7 @@ foo@bar:~$ rgpt --input "$(git diff file.txt)"
 
 ### Optional
 
-`model`, `m`: The model for GPT to use. Can be ("text-davinci-003", "text-curie-003", "text-ada-003", "text-babbage-003"), Davinci is recommended
+`model`, `m`: The model for GPT to use. Can be ("text-davinci-003", "text-curie-001", "text-ada-001", "text-babbage-001"), Davinci is recommended
 
 Default: text-davinci-003
 
