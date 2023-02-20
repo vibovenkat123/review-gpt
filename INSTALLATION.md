@@ -1,5 +1,13 @@
 # CLI
 
+# One-Liner
+
+```console
+foo@bar:~$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/vibovenkat123/review-gpt/HEAD/install.sh)"
+```
+
+# If that doesnt work, follow the steps below
+
 ## Clone the repo
 ```console
 foo@bar:~$ git clone git@github.com:vibovenkat123/review-gpt.git ~/.rgpt

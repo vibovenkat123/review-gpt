@@ -8,7 +8,13 @@ See [ROADMAP.md](/ROADMAP.md) for the upcoming features
 
 # Installation 
 
-See [INSTALLATION.md](/INSTALLATION.md) for information on how to install
+One-Line Install
+
+```console
+foo@bar:~$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/vibovenkat123/review-gpt/HEAD/install.sh)"
+```
+
+See [INSTALLATION.md](/INSTALLATION.md) for more information on how to install
 
 # GPT Pricing 
 
