@@ -112,7 +112,16 @@ wait_for_quit() {
     done
 }
 greet() {
-    printf "${cyan}Welcome to the review-gpt installation script\n${reset}"
+    printf "${cyan}Welcome to the review-gpt install/update script\n${reset}"
+}
+success_end() {
+    echo
+    echo
+    good "You have successfully installed/updated review-gpt!"
+    echo
+    good "Whenever you want to update, run the same script."
+    echo
+    echo
 }
 ask_for_env() {
     read -p "Enter API Key for openai:" key
@@ -140,3 +149,7 @@ wait_for_quit
 ask_for_env
 
 download_binaries
+
+success_end
+
+exit 0
