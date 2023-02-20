@@ -17,6 +17,7 @@ fi
 latest_download_url="https://github.com/vibovenkat123/review-gpt/releases/latest/download"
 declare -a binaries=("rgpt-linux-mips" "rgpt-linux-mips64" "rgpt-linux-mips64le" "rgpt-linux-mipsle" "rgpt-linux-ppc64" "rgpt-linux-ppc64le" "rgpt-linux-386" "rgpt-linux-amd64" "rgpt-linux-arm" "rgpt-linux-arm64" "rgpt-macos-arm64" "rgpt-macos-amd64")
 mkcolor() { escape "1;$1"; }
+mksecondarycolor() { escape "0;$1"; }
 underline="$(escape "4;39")"
 blue="$(mkcolor 34)"
 red="$(mkcolor 31)"
