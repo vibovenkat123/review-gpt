@@ -47,11 +47,3 @@ foo@bar:~/.rgpt$ make update
 # Updates
 
 To update the git repo, run `make update` in the directory
-
-# Usage
-
-To use rgpt:
-
-```console
-foo@bar:~/random/git/repo$ rgpt --i "$(git diff file.txt)" --f "$(git show file.txt)"
-```

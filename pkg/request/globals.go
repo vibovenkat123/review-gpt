@@ -14,14 +14,14 @@ const (
     Gpt Modeltype = "gpt"
 )
 var (
-    TempRangeMin float32 = 0
-    TempRangeMax  float32 = 1
-    TopPMin float32 = 0
-    TopPMax   float32 = 1
-    PresenceMin float32 = 0
-    PresenceMax   float32 = 2
-    FrequenceMin float32 = 0
-    FrequenceMax float32 = 2
+    TempRangeMin float64 = 0
+    TempRangeMax  float64 = 1
+    TopPMin float64 = 0
+    TopPMax   float64 = 1
+    PresenceMin float64 = -2
+    PresenceMax   float64 = 2
+    FrequenceMin float64 = -2
+    FrequenceMax float64 = 2
     BestOfMin int = 1
     BestOfMax int = 20
 )
