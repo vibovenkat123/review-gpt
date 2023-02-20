@@ -4,10 +4,10 @@ import (
 	"errors"
 	"fmt"
 )
-
+// enum types
 type Model = string
 type Modeltype = string
-
+// enums for the models
 const (
 	Davinci string    = "text-davinci-003"
 	Curie   string    = "text-curie-001"
@@ -16,7 +16,7 @@ const (
 	Codex   Modeltype = "codex"
 	Gpt     Modeltype = "gpt"
 )
-
+// variables for the minimum and maximum ranges
 var (
 	TempRangeMin float64 = 0
 	TempRangeMax float64 = 1
@@ -29,6 +29,7 @@ var (
 	BestOfMin    int     = 1
 	BestOfMax    int     = 20
 )
+// the errors to use for wrong formats
 var (
 	ErrWrongModel          error = errors.New(fmt.Sprintf("The model you entered was not correct"))
 	ErrWrongTempRange      error = errors.New(fmt.Sprintf("The temperature is not in the correct range (%v <= temp <= %v)", TempRangeMin, TempRangeMax))
