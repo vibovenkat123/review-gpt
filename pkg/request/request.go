@@ -139,6 +139,7 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	choices := apiReq.Choices
     // append it to the answers array
 	for _, c := range choices {
+        // if its not empty
 		if len(c.Text) != 0 {
 			answers = append(answers, c.Text)
 		}
