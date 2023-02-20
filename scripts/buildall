@@ -5,6 +5,12 @@ env GOOS="linux" GOARCH="amd64" go build  -o bin/rgpt-linux-amd64 cmd/reviewgpt/
 env GOOS="linux" GOARCH="386" go build -o bin/rgpt-linux-386 cmd/reviewgpt/reviewgpt.go
 env GOOS="linux" GOARCH="arm" go build -o bin/rgpt-linux-arm cmd/reviewgpt/reviewgpt.go
 env GOOS="linux" GOARCH="arm64" go build -o bin/rgpt-linux-arm64 cmd/reviewgpt/reviewgpt.go
+env GOOS="linux" GOARCH="ppc64" go build -o bin/rgpt-linux-ppc64 cmd/reviewgpt/reviewgpt.go
+env GOOS="linux" GOARCH="ppc64le" go build -o bin/rgpt-linux-ppc64le cmd/reviewgpt/reviewgpt.go
+env GOOS="linux" GOARCH="mips" go build -o bin/rgpt-linux-mips cmd/reviewgpt/reviewgpt.go
+env GOOS="linux" GOARCH="mipsle" go build -o bin/rgpt-linux-mipsle cmd/reviewgpt/reviewgpt.go
+env GOOS="linux" GOARCH="mips64" go build -o bin/rgpt-linux-mips64 cmd/reviewgpt/reviewgpt.go
+env GOOS="linux" GOARCH="mips64le" go build -o bin/rgpt-linux-mips64le cmd/reviewgpt/reviewgpt.go
 env GOOS="windows" GOARCH="386" go build -o bin/rgpt-windows-386 cmd/reviewgpt/reviewgpt.go
 env GOOS="windows" GOARCH="amd64" go build -o bin/rgpt-windows-amd64 cmd/reviewgpt/reviewgpt.go
 go build -o bin/rgpt cmd/reviewgpt/reviewgpt.go

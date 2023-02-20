@@ -1,19 +1,19 @@
-# Review-GPT (RGPT)
+# What is Review-GPT (RGPT)
 
-This is an automated code review tool that is open source and self-hostable
+Review is an automated code review tool that uses GPT3. This can greatly reduce the amount of time given for code reviews, thus making your development faster.
 
-# Want to help?
+# Roadmap
 
-If you would like to work on this tool, email me at <vibovenkat@gmail.com> or for basic changes, just create issues and pull requests. I will go more in depth when I create CONTRIBUTING.md
+See [ROADMAP.md](/ROADMAP.md) for the upcoming features
 
 # Installation 
 
-See [INSTALLATION.md](/INSTALLATION.md) for info on how to install
+See [INSTALLATION.md](/INSTALLATION.md) for information on how to install
 
-# Info
+# GPT Pricing 
 
-See [INFO.md](/INFO.md) for information about the CLI
+See [PRICING.md](/PRICING.md) for information about the GPT pricing system and what you can do to cut costs.
 
 # Usage
 
-See [USAGE.md](/USAGE.md) for info on how to use the CLI (flags, etc.)
+See [USAGE.md](/USAGE.md) for information on how to use the CLI (flags, etc.)
