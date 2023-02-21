@@ -95,7 +95,7 @@ download_binaries() {
     arrow "Moving the binary to the correct name"
     sudo mv $binary_name rgpt
     arrow "Giving chmod perms"
-    sudo chmod +x rgpt
+    sudo chmod +x /usr/local/bin/rgpt
     arrow "Going back to previous directory"
     arrow "$(cd -)"
     arrow "$( good "Successfully copied binary" )"
