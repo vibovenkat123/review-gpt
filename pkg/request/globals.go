@@ -33,7 +33,7 @@ var (
 var (
 	ErrWrongModel          error = errors.New(fmt.Sprintf("The model you entered was not correct"))
 	ErrWrongTempRange      error = errors.New(fmt.Sprintf("The temperature is not in the correct range (%v <= temp <= %v)", TempRangeMin, TempRangeMax))
-	ErrWrongTopRange       error = errors.New(fmt.Sprintf("The top_p is not in the correct range (%v <= top_p <= %v)", TopPMin, TopPMax))
+	ErrWrongToppRange       error = errors.New(fmt.Sprintf("The top_p is not in the correct range (%v <= top_p <= %v)", TopPMin, TopPMax))
 	ErrWrongPresenceRange  error = errors.New(fmt.Sprintf("The presence penalty is not in the correct range (%v <= presence <= %v)", PresenceMin, PresenceMax))
 	ErrWrongFrequenceRange error = errors.New(fmt.Sprintf("The presence penalty is not in the correct range (%v <= frequence <= %v)", FrequenceMin, FrequenceMax))
 	ErrWrongBestOfRange    error = errors.New(fmt.Sprintf("The best of variable is not in the correct range (%v <= best of  <= %v)", BestOfMin, BestOfMax))

@@ -70,7 +70,7 @@ func CheckFormat(body Body) error {
 	}
     // top_p
 	if body.Top_P < TopPMin || body.Top_P > TopPMax {
-		return ErrWrongTopRange
+		return ErrWrongToppRange
 	}
     // presense penalty
 	if body.Presence_Pen < PresenceMin || body.Presence_Pen > PresenceMax {
