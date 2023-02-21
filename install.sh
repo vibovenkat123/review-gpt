@@ -94,6 +94,8 @@ download_binaries() {
     sudo curl -LJO $latest_download_url/$binary_name
     arrow "Moving the binary to the correct name"
     sudo mv $binary_name rgpt
+    arrow "Giving the file executing permissions"
+    sudo chmod +x /usr/local/bin/rgpt
     arrow "Going back to previous directory"
     arrow "$(cd -)"
     arrow "$( good "Successfully copied binary" )"
