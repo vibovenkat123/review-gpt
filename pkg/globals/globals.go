@@ -96,4 +96,7 @@ func Setup() {
 	}
 	// set the openapi key to the environment variable
 	OpenaiKey = os.Getenv("OPENAI_KEY")
+    if len(OpenaiKey) == 0 {
+        log.Fatalln("Open Ai API Key is empty (~/rgpt.env)")
+    }
 }
