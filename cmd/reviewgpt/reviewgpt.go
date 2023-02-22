@@ -66,9 +66,8 @@ func main() {
 	flag.Parse()
 	// if the input is empty
 	if len(input) == 0 {
-		globals.Sugar.Fatalw("Input flag is empty (did you enter it, or is there any git diff?).",
-			"Input", input,
-		)
+		globals.Log.Fatal().
+            Msg("Input flag is empty (did you enter it, or is there any git diff?).")
 	}
 	// request the api
 	request.RequestApi(input, model, maxtokens, temperature, top_p, frequence, presence, bestof)
