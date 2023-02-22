@@ -12,7 +12,6 @@ import (
 	"io/ioutil"
 	// for errors
 	"errors"
-	"log"
 	// for the requests
 	"net/http"
 )
@@ -64,7 +63,7 @@ func RequestApi(gitDiff string, model Model, maxtokens int, temperature float64,
 	// get all the improvements
 	improvements, err := RequestImprovements(globals.OpenaiKey, gitDiff, model, maxtokens, temperature, top_p, frequence, presence, bestof)
 	if err != nil {
-		log.Fatalln(err)
+		globals.Sugar.Fatalln(err)
 	}
 	// print each improvement
 	for _, improvement := range improvements {
@@ -129,7 +128,7 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	// marshal the params
 	jsonParams, err := json.Marshal(params)
 	if err != nil {
-		log.Fatalln(err)
+		globals.Sugar.Fatalln(err)
 	}
 	// get the request body in bytes
 	reqBody := bytes.NewBuffer(jsonParams)
@@ -142,7 +141,7 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	// execute the request
 	resp, err := client.Do(req)
 	if err != nil {
-		log.Fatalln(err)
+		globals.Sugar.Fatalln(err)
 	}
 	defer resp.Body.Close()
 	// get the body

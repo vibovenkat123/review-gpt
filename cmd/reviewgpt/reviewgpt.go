@@ -7,8 +7,6 @@ import (
 	"github.com/vibovenkat123/review-gpt/pkg/globals"
 	// to call the API
 	"github.com/vibovenkat123/review-gpt/pkg/request"
-	// for errors
-	"log"
 )
 
 // flag variables
@@ -68,7 +66,9 @@ func main() {
 	flag.Parse()
 	// if the input is empty
 	if len(input) == 0 {
-		log.Fatalln("Input flag is empty (did you enter it, or is there any git diff?)")
+		globals.Sugar.Fatalw("Input flag is empty (did you enter it, or is there any git diff?).",
+			"input", input,
+		)
 	}
 	// request the api
 	request.RequestApi(input, model, maxtokens, temperature, top_p, frequence, presence, bestof)

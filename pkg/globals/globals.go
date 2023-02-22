@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/joho/godotenv"
-	"log"
+	"go.uber.org/zap"
 	"os"
 	"strings"
 )
@@ -44,6 +44,8 @@ var (
 	presenceFlagNames    []string = []string{"pr", "presence", "p", "pres"}
 	bestOfFlagNames      []string = []string{"bo", "bestof", "best"}
 )
+var Logger *zap.Logger
+var Sugar *zap.SugaredLogger
 
 // the flags themselves
 var (
@@ -82,6 +84,10 @@ var (
 )
 
 func Setup() {
+	// set the logger
+	Logger, _ = zap.NewProduction()
+	defer Logger.Sync()
+	Sugar = Logger.Sugar()
 	// set the environment file
 	EnvFile = ".rgpt.env"
 	home := os.Getenv("HOME")
@@ -90,13 +96,13 @@ func Setup() {
 	if err != nil {
 		// if the error says the environement file doesn't exist
 		if strings.Contains(err.Error(), "no such file") {
-			log.Fatalln(errors.New(".rgpt.env not found. Did you follow the instructions in the INSTALLATION.md?"))
+            Sugar.Fatalln(errors.New(".rgpt.env not found. Did you follow the instructions in the INSTALLATION.md?"))
 		}
-		log.Fatalln(err)
+		Sugar.Fatalln((err))
 	}
 	// set the openapi key to the environment variable
 	OpenaiKey = os.Getenv("OPENAI_KEY")
 	if len(OpenaiKey) == 0 {
-		log.Fatalln("Open Ai API Key is empty (~/rgpt.env)")
+		Sugar.Fatalln("Open Ai API Key is empty (~/rgpt.env)")
 	}
 }
