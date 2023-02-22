@@ -155,10 +155,6 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
     }
 	// get all the choices
 	choices := apiReq.Choices
-        // check if the array is empty
-        if len(choices) == 0 {
-            return answers, ErrWrongKey
-        }
 	// append it to the answers array
 	for _, c := range choices {
 		// if its not empty
