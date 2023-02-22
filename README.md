@@ -6,9 +6,9 @@ Review is an automated code review tool that uses GPT3. This can greatly reduce 
 
 See [ROADMAP.md](/ROADMAP.md) for the upcoming features
 
-# Installation 
+# Installation/Update
 
-One-Line Install
+One-Line Install/Update
 
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/vibovenkat123/review-gpt/HEAD/install.sh)"
