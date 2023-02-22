@@ -11,7 +11,7 @@ import (
 	// for reading the response
 	"io/ioutil"
 	// for errors
-    "errors"
+	"errors"
 	"log"
 	// for the requests
 	"net/http"
@@ -43,14 +43,15 @@ type APIUsage struct {
 	Total_Tokens      int `json:"total_tokens"`
 }
 type ApiErr struct {
-    Message string `json:"message"`
-    Type string `json:"type"`
-    Param *string `json:"param"`
-    Code string `json:"code"`
+	Message string  `json:"message"`
+	Type    string  `json:"type"`
+	Param   *string `json:"param"`
+	Code    string  `json:"code"`
 }
+
 // the response the api gives
 type APIResponse struct {
-    Err *ApiErr `json:"error"` 
+	Err     *ApiErr   `json:"error"`
 	ID      string    `json:"id"`
 	Object  string    `json:"object"`
 	Created int       `json:"created"`
@@ -149,10 +150,10 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	apiReq := APIResponse{}
 	// unmarshal (put the json in a struct) the body
 	json.Unmarshal([]byte(string(body)), &apiReq)
-    if apiReq.Err != nil {
-       err := apiReq.Err
-       return answers, errors.New(err.Message)
-    }
+	if apiReq.Err != nil {
+		err := apiReq.Err
+		return answers, errors.New(err.Message)
+	}
 	// get all the choices
 	choices := apiReq.Choices
 	// append it to the answers array
