@@ -1,12 +1,12 @@
 package globals
 
 import (
-	"errors"
 	"fmt"
 	"github.com/joho/godotenv"
-	"log"
 	"os"
 	"strings"
+    "github.com/rs/zerolog"
+    "github.com/rs/zerolog/log"
 )
 
 // the openapi key
@@ -80,8 +80,11 @@ var (
 		Names: bestOfFlagNames,
 	}
 )
-
+var Log zerolog.Logger
 func Setup() {
+    log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+    Log = log.Logger
+	// set the logger
 	// set the environment file
 	EnvFile = ".rgpt.env"
 	home := os.Getenv("HOME")
@@ -90,13 +93,22 @@ func Setup() {
 	if err != nil {
 		// if the error says the environement file doesn't exist
 		if strings.Contains(err.Error(), "no such file") {
-			log.Fatalln(errors.New(".rgpt.env not found. Did you follow the instructions in the INSTALLATION.md?"))
+            Log.Error().
+                Str("Env File", EnvFile).
+                Str("Home env var", home).
+                Err(err).
+                Msg("Env file not found. Did you follow the instructions in the INSTALLATION.md?")
 		}
-		log.Fatalln(err)
+		Log.Error().
+            Err(err).
+            Msg("Error while loading environment variable")
 	}
 	// set the openapi key to the environment variable
 	OpenaiKey = os.Getenv("OPENAI_KEY")
 	if len(OpenaiKey) == 0 {
-		log.Fatalln("Open Ai API Key is empty (~/rgpt.env)")
+		Log.Error().
+            Str("Env file", EnvFile).
+            Str("Open AI Key Read", OpenaiKey).
+            Msg("Open Ai API Key is empty")
 	}
 }
