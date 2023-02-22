@@ -1,7 +1,6 @@
 package globals
 
 import (
-	"errors"
 	"fmt"
 	"github.com/joho/godotenv"
 	"go.uber.org/zap"
@@ -96,13 +95,22 @@ func Setup() {
 	if err != nil {
 		// if the error says the environement file doesn't exist
 		if strings.Contains(err.Error(), "no such file") {
-            Sugar.Fatalln(errors.New(".rgpt.env not found. Did you follow the instructions in the INSTALLATION.md?"))
+            Sugar.Fatalw("Env file not found. Did you follow the instructions in the INSTALLATION.md?",
+                "Error", err,
+                "Env File", EnvFile,
+                "Home env var", home,
+            )
 		}
-		Sugar.Fatalln((err))
+		Sugar.Fatalw("Error while loading environment file",
+            "Error", err,
+        )
 	}
 	// set the openapi key to the environment variable
 	OpenaiKey = os.Getenv("OPENAI_KEY")
 	if len(OpenaiKey) == 0 {
-		Sugar.Fatalln("Open Ai API Key is empty (~/rgpt.env)")
+		Sugar.Fatalw("Open Ai API Key is empty",
+            "Env file", EnvFile,
+            "Open AI Key Read", OpenaiKey,
+        )
 	}
 }

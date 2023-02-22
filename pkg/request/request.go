@@ -63,7 +63,18 @@ func RequestApi(gitDiff string, model Model, maxtokens int, temperature float64,
 	// get all the improvements
 	improvements, err := RequestImprovements(globals.OpenaiKey, gitDiff, model, maxtokens, temperature, top_p, frequence, presence, bestof)
 	if err != nil {
-		globals.Sugar.Fatalln(err)
+		globals.Sugar.Fatalln("Error while requesting the improvments",
+            "Error", err,
+            "Open API Key", globals.OpenaiKey,
+            "Model", model,
+            "Max Tokens", maxtokens,
+            "Temperature", temperature,
+            "Top_P", top_p,
+            "Frequence Penalty", frequence,
+            "Presence Penalty", presence,
+            "Best Of", bestof,
+            "Improvements received", improvements,
+        )
 	}
 	// print each improvement
 	for _, improvement := range improvements {
@@ -128,7 +139,7 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	// marshal the params
 	jsonParams, err := json.Marshal(params)
 	if err != nil {
-		globals.Sugar.Fatalln(err)
+        return answers, err
 	}
 	// get the request body in bytes
 	reqBody := bytes.NewBuffer(jsonParams)
@@ -141,7 +152,7 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	// execute the request
 	resp, err := client.Do(req)
 	if err != nil {
-		globals.Sugar.Fatalln(err)
+        return answers, err
 	}
 	defer resp.Body.Close()
 	// get the body

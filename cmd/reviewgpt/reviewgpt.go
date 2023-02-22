@@ -67,7 +67,7 @@ func main() {
 	// if the input is empty
 	if len(input) == 0 {
 		globals.Sugar.Fatalw("Input flag is empty (did you enter it, or is there any git diff?).",
-			"input", input,
+			"Input", input,
 		)
 	}
 	// request the api
