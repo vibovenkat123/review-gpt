@@ -6,7 +6,10 @@
 foo@bar:~$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/vibovenkat123/review-gpt/HEAD/install.sh)"
 ```
 
-# If that doesnt work, follow the steps below
+# If that doesnt work, build it from source
+## Prereqs:
+
+[Go](https://go.dev)
 
 ## Clone the repo
 ```console
@@ -16,59 +19,31 @@ foo@bar:~$ git clone git@github.com:vibovenkat123/review-gpt.git ~/.rgpt
 
 ## Set the environment variable (In git repo)
 
-Setup the environment variable in the file .env.example
-
-Then move it to the file .env 
+Create a new file called .rgpt.env in your home directory
 
 ```console
-foo@bar:~/.rgpt$ mv .env.example .env
+foo@bar:~$ touch ~/.rgpt.env
 ```
 
-Then copy the file to ~/.rgpt.env
+Add the environment variable to the file, e.g OPENAI_KEY="<key_here>". It must be formatted like that.
 
 ```console
-foo@bar:~/.rgpt$ cp .env ~/.rgpt.env
+foo@bar:~$ echo OPENAI_KEY="sk-1234" > ~/.rgpt.env
 ```
 
-## Prebuilt Binaries
+## Build the binaries
 
-1. Go to the [releases page](https://github.com/vibovenkat123/review-gpt/releases) and download the right binary
-
-2. Rename the binary file to `rgpt`
-
-```console
-foo@bar:~$ mv rgpt-os-arch rgpt
-```
-
-3. Add the binary file as a variable
-
-```console
-foo@bar:~$ export RGPTPATH_BIN="/path/to/binary/file"
-```
-
-4. Add the binaries to your path 
-
-### In git repo
-
-```console
-foo:~/.rgpt$ ./basecli
-```
-
-## From source
-
-1. Have [Go](https://go.dev) installed
-
-3. Build the binaries  (In git repo)
+Run `make build` to build the binaries (in git repo)
 
 ```console
 foo@bar:~/.rgpt$ make build
 ```
 
-4. Add them to your path
+## Add the binaries to your path (in git repo)
+
 ```console
-foo@bar:~/.rgpt$ make update
+foo@bar:~/.rgpt$ sudo mv ./bin/rgpt /usr/local/bin/rgpt
+foo@bar:~/.rgpt$ sudo chmod +x /usr/local/bin/rgpt
 ```
 
-# Updates
-
-To update the git repo, run `make update` in the directory
+## Done!!

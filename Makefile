@@ -7,5 +7,3 @@ buildall:
 	@./scripts/buildall
 runspecific:
 	@./scripts/runspecific $(os) $(arch)
-update:
-	@./scripts/update
