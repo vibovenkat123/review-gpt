@@ -1,14 +1,22 @@
+<h3 align="center">
+	<img src="assets/logo/logo.png" width="200" alt="Logo"/><br/>
+	<h1 align="center"> Review-GPT</h1>
+</h3>
+<h4 align="center">
+  <a href="https://github.com/vibovenkat123/review-gpt/blob/main/INSTALLATION.md">Installation</a>
+  ·
+  <a href="https://github.com/vibovenkat123/review-gpt/blob/main/CONTRIBUTING.md">Contributing</a>
+  ·
+  <a href="https://github.com/vibovenkat123/review-gpt/blob/main/ROADMAP.md">Roadmap</a>
+  ·
+  <a href="https://github.com/vibovenkat123/review-gpt/blob/main/USAGE.md">Usage</a>
+</h4>
+
 # What is Review-GPT (RGPT)
 
-Review is an automated code review tool that uses GPT3. This can greatly reduce the amount of time given for code reviews, thus making your development faster.
-
-# Roadmap
-
-See [ROADMAP.md](/ROADMAP.md) for the upcoming features
-
-# Contributing
-
-See [CONTRIBUTING.md](/CONTRIBUTING.md) for information on how to contribute
+Review GPT is an automated code review tool that uses GPT3. This can greatly reduce the amount of time given for code reviews, thus making your development faster. It takes in a git diff, and tells you what could be improved with it.
+<br/>
+<br/>
 
 # Installation/Update
 
@@ -19,11 +27,9 @@ One-Line Install/Update
 ```
 
 See [INSTALLATION.md](/INSTALLATION.md) for more information on how to install, and how to install from source
+<br/>
+<br/>
 
 # GPT Pricing 
 
 See [PRICING.md](/PRICING.md) for information about the GPT pricing system and what you can do to cut costs.
-
-# Usage
-
-See [USAGE.md](/USAGE.md) for information on how to use the CLI (flags, etc.)
