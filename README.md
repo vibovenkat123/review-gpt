@@ -8,7 +8,7 @@ See [ROADMAP.md](/ROADMAP.md) for the upcoming features
 
 # Contributing
 
-See [CONTRIBUTING.md)(/CONTRIBUTING.md) for information on how to contribute
+See [CONTRIBUTING.md](/CONTRIBUTING.md) for information on how to contribute
 
 # Installation/Update
 
