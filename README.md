@@ -1,5 +1,5 @@
 <h3 align="center">
-	<img src="assets/logo/logo.png" width="200" alt="Logo"/><br/>
+	<img src="https://raw.githubusercontent.com/vibovenkat123/review-gpt/main/assets/logo/logo.png" width="200" alt="Logo"/><br/>
 	<h1 align="center"> Review-GPT</h1>
 </h3>
 <h4 align="center">
