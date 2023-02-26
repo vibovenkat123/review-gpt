@@ -25,6 +25,8 @@ One-Line Install/Update
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/vibovenkat123/review-gpt/HEAD/install.sh)"
 ```
+## Example of installation
+![Example of install](/assets/examples/installation/installation.png)
 
 See [INSTALLATION.md](/INSTALLATION.md) for more information on how to install, and how to install from source
 <br/>

@@ -1,5 +1,13 @@
 # USAGE
 
+# Example on terminal
+
+![Usage Example](/assets/examples/usage/base_usage.png)
+
+**More in the examples directory**
+
+<br />
+
 ## Example with all flags:
 
 ```console
