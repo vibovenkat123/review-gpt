@@ -4,7 +4,7 @@
 
 ![Usage Example](/assets/examples/usage/base_usage.png)
 
-**More in the examples directory**
+**More in the [examples/usage](https://github.com/vibovenkat123/review-gpt/tree/main/assets/examples/usage) directory**
 
 <br />
 
