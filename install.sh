@@ -15,7 +15,7 @@ else
 fi
 
 stable_download_url="https://github.com/vibovenkat123/review-gpt/releases/download/stable"
-declare -a binaries=("rgpt-linux-mips" "rgpt-linux-mips64" "rgpt-linux-mips64le" "rgpt-linux-mipsle" "rgpt-linux-ppc64" "rgpt-linux-ppc64le" "rgpt-linux-386" "rgpt-linux-amd64" "rgpt-linux-arm" "rgpt-linux-arm64" "rgpt-macos-arm64" "rgpt-macos-amd64")
+declare -a binaries=("rgpt-linux-mips" "rgpt-linux-mips64" "rgpt-linux-mips64le" "rgpt-linux-mipsle" "rgpt-linux-ppc64" "rgpt-linux-ppc64le" "rgpt-linux-386" "rgpt-linux-amd64" "rgpt-linux-arm" "rgpt-linux-arm64" "rgpt-macos-arm64" "rgpt-macos-amd64" "rgpt-windows-386" "rgpt-windows-amd64" "rgpt-windows-arm64")
 mkcolor() { escape "1;$1"; }
 mksecondarycolor() { escape "0;$1"; }
 underline="$(escape "4;39")"
