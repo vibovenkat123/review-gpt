@@ -20,6 +20,8 @@ Review GPT is an automated code review tool that uses GPT3. This can greatly red
 
 # Installation/Update
 
+**Windows users look at [WINDOWS.md](/WINDOWS.md)**
+
 One-Line Install/Update
 
 ```
