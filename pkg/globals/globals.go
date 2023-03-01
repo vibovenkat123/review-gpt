@@ -82,7 +82,6 @@ var (
 )
 var Log zerolog.Logger
 func Setup() {
-    log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
     Log = log.Logger
 	// set the logger
 	// set the environment file
