@@ -64,7 +64,6 @@ func RequestApi(gitDiff string, model Model, maxtokens int, temperature float64,
 	improvements, err := RequestImprovements(globals.OpenaiKey, gitDiff, model, maxtokens, temperature, top_p, frequence, presence, bestof)
 	if err != nil {
 		globals.Log.Error().
-            Str("Open API Key", globals.OpenaiKey).
             Str("Model", model).
             Int("Max Tokens", maxtokens).
             Float64("Temperature", temperature).
