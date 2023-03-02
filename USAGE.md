@@ -27,6 +27,9 @@ foo@bar:~$ rgpt --input "$(git diff file.txt)"
 `input`, `i`: The input file (the git diff). You can get the git diff of a file by executing `git diff file.txt` where `file.txt` is the file
 
 ### Optional
+`pretty`, `pret`: If the output should be pretty (recommended for CLI yes, extension no)
+
+Default: true
 
 `model`, `m`: The model for GPT to use. Can be ("text-davinci-003", "text-curie-001", "text-ada-001", "text-babbage-001"), Davinci is recommended
 
