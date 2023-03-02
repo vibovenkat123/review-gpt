@@ -24,6 +24,7 @@ type Flag struct {
 // all the help messages
 const (
 	inputHelp       string = "The input (git diff file.txt)"
+	prettyHelp string = "Whether to use pretty output or not (true|false)"
 	modelHelp       string = "The model for GPT (see USAGE.md for more details)"
 	maxTokensHelp   string = "The length of the max tokens (see USAGE.md for more details)"
 	temperatureHelp string = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic."
@@ -36,6 +37,7 @@ const (
 // the flag arrays
 var (
 	inputFlagNames       []string = []string{"input", "i"}
+	prettyFlagNames []string = []string{"pretty", "pret"}
 	modelFlagNames       []string = []string{"model", "m"}
 	maxTokensFlagNames   []string = []string{"max"}
 	temperatureFlagNames []string = []string{"temp", "t"}
@@ -47,6 +49,10 @@ var (
 
 // the flags themselves
 var (
+    PrettyFlag = Flag{
+        Help: prettyHelp,
+        Names: prettyFlagNames,
+    }
 	InputFlag = Flag{
 		Help:  inputHelp,
 		Names: inputFlagNames,
@@ -81,7 +87,12 @@ var (
 	}
 )
 var Log zerolog.Logger
-func Setup() {
+var Pretty bool
+func Setup(pretty bool) {
+    Pretty = pretty
+    if Pretty {
+        log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+    }
     Log = log.Logger
 	// set the logger
 	// set the environment file
@@ -107,7 +118,6 @@ func Setup() {
 	if len(OpenaiKey) == 0 {
 		Log.Error().
             Str("Env file", EnvFile).
-            Str("Open AI Key Read", OpenaiKey).
             Msg("Open Ai API Key is empty")
 	}
 }

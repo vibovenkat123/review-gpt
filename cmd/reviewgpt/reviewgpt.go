@@ -13,6 +13,7 @@ import (
 // the git diff
 var input string
 
+
 // the model
 var model string
 
@@ -30,16 +31,17 @@ var frequence float64
 
 // the presence penalty
 var presence float64
-
+// if its pretty
+var pretty bool
 // Amount of times to call
 var bestof int
-
-func main() {
-	// setup the globals
-	globals.Setup()
+func init() {
 	// setup the flag by looping through the flags array and setting them
 	for _, inputFlag := range globals.InputFlag.Names {
 		flag.StringVar(&input, inputFlag, "", globals.InputFlag.Help)
+	}
+	for _, prettyFlag := range globals.PrettyFlag.Names {
+		flag.BoolVar(&pretty, prettyFlag, true, globals.PrettyFlag.Help)
 	}
 	for _, modelFlag := range globals.ModelFlag.Names {
 		flag.StringVar(&model, modelFlag, "text-davinci-003", globals.ModelFlag.Help)
@@ -62,8 +64,12 @@ func main() {
 	for _, bestOfFlag := range globals.BestOfFlag.Names {
 		flag.IntVar(&bestof, bestOfFlag, 1, globals.BestOfFlag.Help)
 	}
+}
+func main() {
+	// setup the globals
 	// parse the flags
 	flag.Parse()
+    globals.Setup(pretty)
 	// if the input is empty
 	if len(input) == 0 {
 		globals.Log.Fatal().
