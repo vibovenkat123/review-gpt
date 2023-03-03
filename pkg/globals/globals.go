@@ -3,10 +3,10 @@ package globals
 import (
 	"fmt"
 	"github.com/joho/godotenv"
+	"github.com/rs/zerolog"
+	"github.com/rs/zerolog/log"
 	"os"
 	"strings"
-    "github.com/rs/zerolog"
-    "github.com/rs/zerolog/log"
 )
 
 // the openapi key
@@ -24,7 +24,7 @@ type Flag struct {
 // all the help messages
 const (
 	inputHelp       string = "The input (git diff file.txt)"
-	prettyHelp string = "Whether to use pretty output or not (true|false)"
+	prettyHelp      string = "Whether to use pretty output or not (true|false)"
 	modelHelp       string = "The model for GPT (see USAGE.md for more details)"
 	maxTokensHelp   string = "The length of the max tokens (see USAGE.md for more details)"
 	temperatureHelp string = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic."
@@ -37,7 +37,7 @@ const (
 // the flag arrays
 var (
 	inputFlagNames       []string = []string{"input", "i"}
-	prettyFlagNames []string = []string{"pretty", "pret"}
+	prettyFlagNames      []string = []string{"pretty", "pret"}
 	modelFlagNames       []string = []string{"model", "m"}
 	maxTokensFlagNames   []string = []string{"max"}
 	temperatureFlagNames []string = []string{"temp", "t"}
@@ -49,10 +49,10 @@ var (
 
 // the flags themselves
 var (
-    PrettyFlag = Flag{
-        Help: prettyHelp,
-        Names: prettyFlagNames,
-    }
+	PrettyFlag = Flag{
+		Help:  prettyHelp,
+		Names: prettyFlagNames,
+	}
 	InputFlag = Flag{
 		Help:  inputHelp,
 		Names: inputFlagNames,
@@ -88,12 +88,13 @@ var (
 )
 var Log zerolog.Logger
 var Pretty bool
+
 func Setup(pretty bool) {
-    Pretty = pretty
-    if Pretty {
-        log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
-    }
-    Log = log.Logger
+	Pretty = pretty
+	if Pretty {
+		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
+	}
+	Log = log.Logger
 	// set the logger
 	// set the environment file
 	EnvFile = ".rgpt.env"
@@ -103,21 +104,21 @@ func Setup(pretty bool) {
 	if err != nil {
 		// if the error says the environement file doesn't exist
 		if strings.Contains(err.Error(), "no such file") {
-            Log.Error().
-                Str("Env File", EnvFile).
-                Str("Home env var", home).
-                Err(err).
-                Msg("Env file not found. Did you follow the instructions in the INSTALLATION.md?")
+			Log.Error().
+				Str("Env File", EnvFile).
+				Str("Home env var", home).
+				Err(err).
+				Msg("Env file not found. Did you follow the instructions in the INSTALLATION.md?")
 		}
 		Log.Error().
-            Err(err).
-            Msg("Error while loading environment variable")
+			Err(err).
+			Msg("Error while loading environment variable")
 	}
 	// set the openapi key to the environment variable
 	OpenaiKey = os.Getenv("OPENAI_KEY")
 	if len(OpenaiKey) == 0 {
 		Log.Error().
-            Str("Env file", EnvFile).
-            Msg("Open Ai API Key is empty")
+			Str("Env file", EnvFile).
+			Msg("Open Ai API Key is empty")
 	}
 }

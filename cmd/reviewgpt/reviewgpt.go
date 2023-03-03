@@ -13,7 +13,6 @@ import (
 // the git diff
 var input string
 
-
 // the model
 var model string
 
@@ -31,10 +30,13 @@ var frequence float64
 
 // the presence penalty
 var presence float64
+
 // if its pretty
 var pretty bool
+
 // Amount of times to call
 var bestof int
+
 func init() {
 	// setup the flag by looping through the flags array and setting them
 	for _, inputFlag := range globals.InputFlag.Names {
@@ -69,11 +71,11 @@ func main() {
 	// setup the globals
 	// parse the flags
 	flag.Parse()
-    globals.Setup(pretty)
+	globals.Setup(pretty)
 	// if the input is empty
 	if len(input) == 0 {
 		globals.Log.Fatal().
-            Msg("Input flag is empty (did you enter it, or is there any git diff?).")
+			Msg("Input flag is empty (did you enter it, or is there any git diff?).")
 	}
 	// request the api
 	request.RequestApi(input, model, maxtokens, temperature, top_p, frequence, presence, bestof)
