@@ -1,0 +1,68 @@
+.\" generated with Ronn/v0.7.3
+.\" http://github.com/rtomayko/ronn/tree/0.7.3
+.
+.TH "RGPT" "1" "March 2023" "" ""
+.
+.SH "NAME"
+\fBRGPT\fR \- Automate code reviews from your terminal
+.
+.SH "SYNOPSIS"
+\fBrgpt\fR [\fIoptions\fR] \fB\-i\fR|\fB\-\-input\fR \fIdiff\fR
+.
+.SH "DESCRIPTION"
+The \fBrgpt\fR command automatically code reviews your code \- straight from your terminal
+.
+.P
+In the default settings, \fBrgpt\fR takes a \fIdiff\fR file (e\.g, a git(1) diff) and asks GPT3 on how to improve it\. The \fB\-\-json\fR and \fB\-\-verbose\fR options change the output of the CLI\. These options can be used together\.
+.
+.P
+The \fBmax\fR, \fBtemp\fR, \fBfrequence\fR, \fBpresence\fR, and \fBbestof\fR options dictate how GPT3 will parse the \fIdiff\fR\.
+.
+.P
+The \fBrgpt\fR needs an input \fIdiff\fR in order to work\. Every other flag is optional\.
+.
+.SH "THE DIFF"
+The \fBrgpt\fR command requires a input flag\. This is input flag is recommended to be a \fIdiff\fR\. Since GPT3 only allows a certain amount of \fItokens\fR, It is recommended you only input a git diff for one file at a time\.
+.
+.SH "OPTIONS"
+These options control how the output of the CLI is formatted\.
+.
+.TP
+\fB\-j\fR, \fB\-\-json\fR
+Generate output in json form instead of a pretty\-output\. This is used in the extensions so the file can parse the json easily and there are no escape characters\. This can also be recommended if your terminal doesn\'t support the default settings\.
+.
+.TP
+\fB\-v\fR, \fB\-\-verbose\fR
+Generate verbose/long output\. This can be needed if you are debugging, or if you just want more information\. It generates logs like \fBRequesting improvements\fR, \fBAsking GPT\fR, etc\.
+.
+.P
+These options control the way GPT3 processes information\.
+.
+.TP
+\fB\-m\fR \fImodel\fR, \fB\-\-model\fR \fImodel\fR
+Request a specific model for GPT3 to use\. It can either be \fBtext\-davinci\-003\fR, \fBtext\-curie\-001\fR, \fBtext\-babbage\-001\fR, or \fBtext\-ada\-001\fR\. It must be in the format of a string\. If this option is not given, it will default to \fBtext\-davinci\-003\fR\.
+.
+.TP
+\fB\-\-max\fR \fImax_tokens\fR
+The maximum tokens GPT3 can use well generating a response back\. To convert characters/text into tokens, go to OpenAI\'s \fItoken\fRizer page\.
+.
+.TP
+\fB\-t\fR \fItemperature\fR, \fB\-\-temp\fR \fItemperature\fR, \fB\-\-temperature\fR \fItemperature\fR
+How deterministic GPT3 is\. The temperature must be between 0 and 2\. If the \fItemperature\fR is higher like \fB1\.2\fR the output will be more random\. Lower numbers such as \fB0\.2\fR will make the output more deterministic and focused\.
+.
+.TP
+\fB\-\-topp\fR \fItop_p\fR
+An alternative to \fItemperature\fR\. The \fItop_p\fR must be between 0 and 1\. The model considers the results of the tokens with \fItop_p\fR probability mass\. So 0\.1 means only the tokens comprising the top 10% probability mass are considered\.
+.
+.TP
+\fB\-f\fR \fIfrequence_penalty\fR, \fB\-\-fr\fR \fIfrequence_penalty\fR, \fBfreq\fR \fIfrequence_penalty\fR, \fBfrequence\fR \fIfrequence_penalty\fR
+How often to penalize new tokens based on their existing frequency in the output so far\. A number between \-2\.0 and 2\.0\. Positive values penalize more, so less repeating text \fBverbatim\fR\.
+.
+.TP
+\fB\-p\fR \fIpresence_penalty\fR, \fB\-\-pr\fR \fIpresence_penalty\fR, \fB\-pres\fR \fIpresence_penalty\fR, \fB\-presence\fR \fIpresence_penalty\fR
+How often to penalize new tokens based on their whether they appear in the text or not\. A number between \-2\.0 and 2\.0\. Positive values penalize more, so it increases the likelihood of the output being unique\.
+.
+.TP
+\fB\-\-bo\fR \fIbest_of\fR, \fB\-\-best\fR \fIbest_of\fR, \fBbestof\fR \fIbest_of\fR
+Generates more completions on GPT3\'s server and returns the best one\.
+
