@@ -2,7 +2,7 @@ RGPT(1) -- Automate code reviews from your terminal
 ===================================================
 
 ## SYNOPSIS
-`rgpt` [<options>] `-i`|`--input` <diff>
+`rgpt` [<options>...] `-i`|`--input` <diff>
 
 ## DESCRIPTION
 The **rgpt** command automatically code reviews your code - straight from your terminal
