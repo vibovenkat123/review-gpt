@@ -1,0 +1,3 @@
+#!/bin/sh
+./scripts/buildman
+./scripts/showman $1

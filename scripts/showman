@@ -1,0 +1,2 @@
+#!/bin/sh
+man ./man/rgpt.1 | $1

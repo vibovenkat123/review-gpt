@@ -1,0 +1,2 @@
+#!/bin/sh
+ronn --roff man/*.md
