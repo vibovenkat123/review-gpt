@@ -101,6 +101,8 @@ copy_manual() {
 }
 download_binaries() {
     echo 
+    info "Installing binaries"
+    echo
     info "Select the binary for your correct machine. rgpt-x-y (x = os, y = architecture)"
     echo
     select binary in "${binaries[@]}"
