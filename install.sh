@@ -77,6 +77,28 @@ print_steps() {
     done
     echo 
 }
+copy_manual() {
+    echo
+    info "Installing man page"
+    echo
+    info "The following steps requires sudo/root permissions. It will copy the file to your bin."
+    wait_for_quit
+    info "Going to man directory"
+    cd /usr/local/share/man/man1
+    if [ -f "$man_file_path" || -f "$target_man_file_path" ]
+    then
+        change "Deleting already existing manual files"
+        sudo rm -f $man_file_path
+        sudo rm -f $target_man_file_path
+    fi
+    change "Downloading manual"
+    sudo curl -LJO $latest_download_url/$man_file_path
+    change "Moving manual file"
+    sudo mv $man_file_path $target_man_file_path
+    arrow "Going back to previous directory"
+    arrow "$(cd -)"
+    ok "Copied manual"
+}
 download_binaries() {
     echo 
     info "Select the binary for your correct machine. rgpt-x-y (x = os, y = architecture)"
