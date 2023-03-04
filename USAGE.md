@@ -11,7 +11,7 @@
 ## Example with all flags:
 
 ```console
-foo@bar:~$ rgpt --input "$(git diff file.txt)" --model "text-davinci-003" --max 500 --temp 0.2 --topp 1 --freq 1.2 --pres 0.3 --bestof 1
+foo@bar:~$ rgpt --input "$(git diff file.txt)" --model "text-davinci-003" --max 500 --temp 0.2 --topp 1 --freq 1.2 --pres 0.3 --bestof 1 --json --verbose
 ```
 
 ## Example with necessary flags:
@@ -27,9 +27,9 @@ foo@bar:~$ rgpt --input "$(git diff file.txt)"
 `input`, `i`: The input file (the git diff). You can get the git diff of a file by executing `git diff file.txt` where `file.txt` is the file
 
 ### Optional
-`pretty`, `pret`: If the output should be pretty (recommended for CLI yes, extension no)
+`json`, `j`: If the output should be in json (Only recommended in the extensions)
 
-Default: true
+`v`, `verbose`: If the output should be verbose (recommended in CLI)
 
 `model`, `m`: The model for GPT to use. Can be ("text-davinci-003", "text-curie-001", "text-ada-001", "text-babbage-001"), Davinci is recommended
 

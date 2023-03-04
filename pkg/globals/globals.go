@@ -24,7 +24,8 @@ type Flag struct {
 // all the help messages
 const (
 	inputHelp       string = "The input (git diff file.txt)"
-	prettyHelp      string = "Whether to use pretty output or not (true|false)"
+	jsonHelp        string = "If the output is in JSON"
+	verboseHelp     string = "If the output is verbose"
 	modelHelp       string = "The model for GPT (see USAGE.md for more details)"
 	maxTokensHelp   string = "The length of the max tokens (see USAGE.md for more details)"
 	temperatureHelp string = "What sampling temperature to use, between 0 and 2. Higher values like 0.8 will make the output more random, while lower values like 0.2 will make it more focused and deterministic."
@@ -37,7 +38,8 @@ const (
 // the flag arrays
 var (
 	inputFlagNames       []string = []string{"input", "i"}
-	prettyFlagNames      []string = []string{"pretty", "pret"}
+	jsonFlagNames        []string = []string{"json", "j"}
+	verboseFlagNames     []string = []string{"verbose", "v"}
 	modelFlagNames       []string = []string{"model", "m"}
 	maxTokensFlagNames   []string = []string{"max"}
 	temperatureFlagNames []string = []string{"temp", "t"}
@@ -49,9 +51,13 @@ var (
 
 // the flags themselves
 var (
-	PrettyFlag = Flag{
-		Help:  prettyHelp,
-		Names: prettyFlagNames,
+	VerboseFlag = Flag{
+		Help:  verboseHelp,
+		Names: verboseFlagNames,
+	}
+	JsonFlag = Flag{
+		Help:  jsonHelp,
+		Names: jsonFlagNames,
 	}
 	InputFlag = Flag{
 		Help:  inputHelp,
@@ -87,11 +93,11 @@ var (
 	}
 )
 var Log zerolog.Logger
-var Pretty bool
+var Verbose bool
 
-func Setup(pretty bool) {
-	Pretty = pretty
-	if Pretty {
+func Setup(json bool, verbose bool) {
+	Verbose = verbose
+	if !json {
 		log.Logger = log.Output(zerolog.ConsoleWriter{Out: os.Stderr})
 	}
 	Log = log.Logger

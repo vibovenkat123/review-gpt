@@ -58,8 +58,8 @@ type APIResponse struct {
 	Usage   APIUsage  `json:"usage"`
 }
 
-func LogPretty(msg string) {
-	if globals.Pretty {
+func LogVerbose(msg string) {
+	if globals.Verbose {
 		globals.Log.Info().
 			Msg(msg)
 	}
@@ -67,10 +67,10 @@ func LogPretty(msg string) {
 
 // request the api
 func RequestApi(gitDiff string, model Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) {
-	LogPretty("Requesting for improvements")
+	LogVerbose("Requesting for improvements")
 	// get all the improvements
 	improvements, err := RequestImprovements(globals.OpenaiKey, gitDiff, model, maxtokens, temperature, top_p, frequence, presence, bestof)
-	LogPretty("Got improvements")
+	LogVerbose("Got improvements")
 	if err != nil {
 		globals.Log.Error().
 			Str("Model", model).
@@ -151,21 +151,21 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	// get the request body in bytes
 	reqBody := bytes.NewBuffer(jsonParams)
 	// form a new request
-	LogPretty("Creating new request")
+	LogVerbose("Creating new request")
 	req, err := http.NewRequest("POST", url, reqBody)
 	// set the api key
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %v", key))
 	req.Header.Set("Content-Type", "application/json")
 	client := &http.Client{}
 	// execute the request
-	LogPretty("Requesting GPT")
+	LogVerbose("Requesting GPT")
 	resp, err := client.Do(req)
 	if err != nil {
 		return answers, err
 	}
 	defer resp.Body.Close()
 	// get the body
-	LogPretty("Got back the request information")
+	LogVerbose("Got back the request information")
 	body, _ := ioutil.ReadAll(resp.Body)
 	apiReq := APIResponse{}
 	// unmarshal (put the json in a struct) the body

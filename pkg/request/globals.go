@@ -7,16 +7,13 @@ import (
 
 // enum types
 type Model = string
-type Modeltype = string
 
 // enums for the models
 const (
-	Davinci string    = "text-davinci-003"
-	Curie   string    = "text-curie-001"
-	Babbage string    = "text-babbage-001"
-	Ada     string    = "text-ada-001"
-	Codex   Modeltype = "codex"
-	Gpt     Modeltype = "gpt"
+	Davinci Model = "text-davinci-003"
+	Curie   Model = "text-curie-001"
+	Babbage Model = "text-babbage-001"
+	Ada     Model = "text-ada-001"
 )
 
 // variables for the minimum and maximum ranges
