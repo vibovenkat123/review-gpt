@@ -47,6 +47,12 @@ print_same_line() {
 arrow() {
     printf "${blue}==>${bold} %s${reset}\n" "$(shell_join "$@")"
 }
+change() {
+    printf "${yellow}==>${bold} %s${reset}\n" "$(shell_join "$@")"
+}
+ok() {
+    printf "${green}==>${bold} %s${reset}\n" "$(shell_join "$@")"
+}
 good() {
    printf "${green}$1${reset}" 
 }
