@@ -7,3 +7,9 @@ buildall:
 	@./scripts/buildall
 runspecific:
 	@./scripts/runspecific $(os) $(arch)
+buildman:
+	@./scripts/buildman
+showman:
+	@./scripts/showman $(pager)
+outputman:
+	@./scripts/man $(pager)
