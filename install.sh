@@ -14,7 +14,7 @@ else
     escape() { :; }
 fi
 
-stable_download_url="https://github.com/vibovenkat123/review-gpt/releases/download/latest"
+latest_download_url="https://github.com/vibovenkat123/review-gpt/releases/download/latest"
 declare -a binaries=("rgpt-linux-mips" "rgpt-linux-mips64" "rgpt-linux-mips64le" "rgpt-linux-mipsle" "rgpt-linux-ppc64" "rgpt-linux-ppc64le" "rgpt-linux-386" "rgpt-linux-amd64" "rgpt-linux-arm" "rgpt-linux-arm64" "rgpt-macos-arm64" "rgpt-macos-amd64" "rgpt-windows-386" "rgpt-windows-amd64" "rgpt-windows-arm64")
 mkcolor() { escape "1;$1"; }
 mksecondarycolor() { escape "0;$1"; }
@@ -91,7 +91,7 @@ download_binaries() {
     arrow "Going to bin directory"
     cd /usr/local/bin
     arrow "Downloading binaries"
-    sudo curl -LJO $stable_download_url/$binary_name
+    sudo curl -LJO $latest_download_url/$binary_name
     arrow "Moving the binary to the correct name"
     sudo mv $binary_name rgpt
     arrow "Giving the file executing permissions"
