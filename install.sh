@@ -122,15 +122,15 @@ download_binaries() {
     wait_for_quit
     arrow "Going to bin directory"
     cd /usr/local/bin
-    arrow "Downloading binaries"
+    change "Downloading binaries"
     sudo curl -LJO $latest_download_url/$binary_name
-    arrow "Moving the binary to the correct name"
+    change "Moving the binary to the correct name"
     sudo mv $binary_name rgpt
-    arrow "Giving the file executing permissions"
+    change "Giving the file executing permissions"
     sudo chmod +x /usr/local/bin/rgpt
     arrow "Going back to previous directory"
     arrow "$(cd -)"
-    arrow "$( good "Successfully copied binary" )"
+    ok "Copied binaries"
 }
 wait_for_quit() {
     echo -n "$(action_required "Press ${bold}RETURN${reset}/${bold}ENTER${reset} to continue with the installation or any other key to quit:")"
@@ -165,10 +165,10 @@ ask_for_env() {
         error "The openai key you entered is not in the right format"
         exit 1
     fi
-    arrow "Copying API Key to ~/.rgpt.env..."
+    change "Copying API Key to ~/.rgpt.env..."
     file_content="OPENAI_KEY=\"${key}\""
     echo $file_content > ~/.rgpt.env
-    arrow $(good "Copied!!")
+    ok "Copied env file"
 }
 greet 
 
