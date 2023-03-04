@@ -1,2 +1,2 @@
 #!/bin/sh
-ronn --roff man/*.md
+ronn --roff man/*.ronn
