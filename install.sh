@@ -184,6 +184,8 @@ ask_for_env
 
 download_binaries
 
+copy_manual
+
 success_end
 
 exit 0
