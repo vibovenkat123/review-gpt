@@ -30,3 +30,37 @@ These options control how the output of the CLI is formatted.
   * `-v`, `--verbose`:
     Generate verbose/long output. This can be needed if you are debugging, or if you just want more information.
     It generates logs like `Requesting improvements`, `Asking GPT`, etc.
+
+These options control the way GPT3 processes information.
+
+  * `-m` <model>, `--model` <model>:
+    Request a specific model for GPT3 to use. 
+    It can either be `text-davinci-003`, `text-curie-001`, `text-babbage-001`, or `text-ada-001`.
+    It must be in the format of a string.
+    If this option is not given, it will default to `text-davinci-003`.
+
+  * `--max` <max_tokens>:
+    The maximum tokens GPT3 can use well generating a response back.
+    To convert characters/text into tokens, go to OpenAI's <token>izer page.
+
+  * `-t` <temperature>, `--temp` <temperature>, `--temperature` <temperature>:
+    How deterministic GPT3 is. The temperature must be between 0 and 2. 
+    If the <temperature> is higher like `1.2` the output will be more random.
+    Lower numbers such as `0.2` will make the output more deterministic and focused.
+
+  * `--topp` <top_p>:
+    An alternative to <temperature>. The <top_p> must be between 0 and 1.
+    The model considers the results of the tokens with <top_p> probability mass. 
+    So 0.1 means only the tokens comprising the top 10% probability mass are considered.
+
+  * `-f` <frequence_penalty>, `--fr` <frequence_penalty>, `freq` <frequence_penalty>, `frequence` <frequence_penalty>:
+    How often to penalize new tokens based on their existing frequency in the output so far.
+    A number between -2.0 and 2.0. Positive values penalize more, so less repeating text **verbatim**.
+
+  * `-p` <presence_penalty>, `--pr` <presence_penalty>, `-pres` <presence_penalty>, `-presence` <presence_penalty>:
+    How often to penalize new tokens based on their whether they appear in the text or not.
+    A number between -2.0 and 2.0. Positive values penalize more, so it increases the likelihood of the output being unique.
+
+  * `--bo` <best_of>, `--best` <best_of>, `bestof` <best_of>:
+    Generates more completions on GPT3's server and returns the best one.
+
