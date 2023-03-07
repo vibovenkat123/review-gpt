@@ -6,6 +6,7 @@ import (
 	// for json
 	"encoding/json"
 	"fmt"
+
 	// for getting the api key
 	"github.com/vibovenkat123/review-gpt/pkg/globals"
 	// for reading the response
@@ -25,14 +26,22 @@ type Body struct {
 	Top_P         float64 `json:"top_p"`
 	Frequence_Pen float64 `json:"frequency_penalty"`
 	Presence_Pen  float64 `json:"presence_penalty"`
-	Best_Of       int     `json:"best_of"`
-	Suffix        string  `json:"suffix"`
+}
+type TurboBody struct {
+	Model         Model     `json:"model"`
+	Messages      []Message `json:"messages"`
+	Temperature   float64   `json:"temperature"`
+	Max_Tokens    int       `json:"max_tokens"`
+	Top_P         float64   `json:"top_p"`
+	Frequence_Pen float64   `json:"frequency_penalty"`
+	Presence_Pen  float64   `json:"presence_penalty"`
 }
 
 // the text in the choices the response gives
 type APIText struct {
-	Text  string `json:"text"`
-	Index int    `json:"index"`
+	Text    string  `json:"text"`
+	Message Message `json:"message"`
+	Index   int     `json:"index"`
 }
 
 // the usage the response gives
@@ -46,6 +55,10 @@ type ApiErr struct {
 	Type    string  `json:"type"`
 	Param   *string `json:"param"`
 	Code    string  `json:"code"`
+}
+type Message struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
 }
 
 // the response the api gives
@@ -66,10 +79,10 @@ func LogVerbose(msg string) {
 }
 
 // request the api
-func RequestApi(gitDiff string, model Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) {
+func RequestApi(gitDiff string, model Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64) {
 	LogVerbose("Requesting for improvements")
 	// get all the improvements
-	improvements, err := RequestImprovements(globals.OpenaiKey, gitDiff, model, maxtokens, temperature, top_p, frequence, presence, bestof)
+	improvements, err := RequestImprovements(globals.OpenaiKey, gitDiff, model, maxtokens, temperature, top_p, frequence, presence)
 	LogVerbose("Got improvements")
 	if err != nil {
 		globals.Log.Error().
@@ -79,7 +92,6 @@ func RequestApi(gitDiff string, model Model, maxtokens int, temperature float64,
 			Float64("Top_P", top_p).
 			Float64("Frequence Penalty", frequence).
 			Float64("Presence Penalty", presence).
-			Int("Best Of", bestof).
 			Err(err).
 			Msg("Error while getting improvements")
 	}
@@ -92,7 +104,7 @@ func RequestApi(gitDiff string, model Model, maxtokens int, temperature float64,
 // checking the format
 func CheckFormat(body Body) error {
 	// model
-	if body.Model != Davinci && body.Model != Ada && body.Model != Curie && body.Model != Babbage {
+	if body.Model != Davinci && body.Model != Ada && body.Model != Curie && body.Model != Babbage && body.Model != Turbo {
 		return ErrWrongModel
 	}
 	// temperature
@@ -111,40 +123,68 @@ func CheckFormat(body Body) error {
 	if body.Frequence_Pen < FrequenceMin || body.Frequence_Pen > FrequenceMax {
 		return ErrWrongFrequenceRange
 	}
-	// best of
-	if body.Best_Of < BestOfMin || body.Best_Of > BestOfMax {
-		return ErrWrongBestOfRange
-	}
 	// if its all good
 	return nil
 }
 
 // request the improvements
-func RequestImprovements(key string, gitDiff string, model Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) ([]string, error) {
+func RequestImprovements(key string, gitDiff string, model Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64) ([]string, error) {
 	answers := []string{}
-	// request url
-	url := "https://api.openai.com/v1/completions"
-	// the instruction
-	promptInstruction := "Explain the git diff below, and from a code reviewers perspective, tell me what I can improve on in the code (the '+' in the git diff is an added line, the '-' is a removed line). DO NOT SUGGEST CHANGES ALREADY MADE IN THE GIT DIFF. DO NOT EXPLAIN THE GIT DIFF. ONLY  SAY WHAT COULD BE IMPROVED. Also go into more detail, but not too much"
-	// get the prompt using sprintf
-	prompt := fmt.Sprintf("%#v\n%#v\n", promptInstruction, gitDiff)
 	// get the body struct
 	params := Body{
 		Model:         model,
-		Prompt:        prompt,
 		Temperature:   temperature,
 		Max_Tokens:    maxtokens,
 		Top_P:         top_p,
 		Frequence_Pen: frequence,
 		Presence_Pen:  presence,
-		Best_Of:       bestof,
+	}
+	turboParams := TurboBody{
+		Model:         model,
+		Temperature:   temperature,
+		Max_Tokens:    maxtokens,
+		Top_P:         top_p,
+		Frequence_Pen: frequence,
+		Presence_Pen:  presence,
 	}
 	// if the params are in the wrong format return an error
 	if err := CheckFormat(params); err != nil {
 		return answers, err
 	}
+	// the end of the url
+	endUrl := "completions"
+	if model == Turbo {
+		endUrl = "chat/completions"
+	}
+	// request url
+	url := fmt.Sprintf("https://api.openai.com/v1/%v", endUrl)
+	// the instruction
+	promptInstruction := "explain the git diff below, and from a code reviewers perspective, tell me what i can improve on in the code (the '+' in the git diff is an added line, the '-' is a removed line). do not suggest changes already made in the git diff. do not explain the git diff. only  say what could be improved. also go into more detail, but not too much"
+	turboPromptInstruction := "You are a very intelligent code reviewer. You take in a git diff from a user(the '+' in the git diff is an added line, the '-' is a removed line), and then list all the improvements the user could have made. Go in to more detail, but not to the point where its too much. You will never write any code, only tell the improvements"
+	// get the prompt using sprintf
+	prompt := fmt.Sprintf("%#v\n%#v\n", promptInstruction, gitDiff)
+	if model == Turbo {
+		// get the prompt using sprintf
+		sysMessage := Message{
+			Role:    "system",
+			Content: turboPromptInstruction,
+		}
+		usrMessage := Message{
+			Role:    "user",
+			Content: gitDiff,
+		}
+		turboParams.Messages = []Message{sysMessage, usrMessage}
+	} else {
+		params.Prompt = prompt
+	}
 	// marshal the params
-	jsonParams, err := json.Marshal(params)
+	var jsonParams []byte
+	var err error
+	if model == Turbo {
+		jsonParams, err = json.Marshal(turboParams)
+	} else {
+		jsonParams, err = json.Marshal(params)
+	}
 	if err != nil {
 		return answers, err
 	}
@@ -179,6 +219,10 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	// append it to the answers array
 	for _, c := range choices {
 		// if its not empty
+		if model == Turbo {
+			answers = append(answers, c.Message.Content)
+			continue
+		}
 		if len(c.Text) != 0 {
 			answers = append(answers, c.Text)
 		}

@@ -38,9 +38,6 @@ var json bool
 // the raw pretty flag
 var rawJSON bool
 
-// Amount of times to call
-var bestof int
-
 // if its verbose
 var verbose bool
 
@@ -57,6 +54,7 @@ func isFlagPassed(name string) bool {
 	})
 	return found
 }
+
 // if any of the flags are passed
 func areFlagsPassed(names []string) bool {
 	for _, name := range names {
@@ -66,9 +64,10 @@ func areFlagsPassed(names []string) bool {
 	}
 	return false
 }
+
 // set a flag
 func setFlag(names []string, flagVar interface{}, defaultValue interface{}, help string) {
-    // apply the correct flag function accordingly
+	// apply the correct flag function accordingly
 	switch flagVar.(type) {
 	case *string:
 		for _, name := range names {
@@ -89,7 +88,7 @@ func setFlag(names []string, flagVar interface{}, defaultValue interface{}, help
 	}
 }
 func getFlags() {
-    // set all the flags
+	// set all the flags
 	setFlag(globals.InputFlag.Names, &input, "", globals.InputFlag.Help)
 	setFlag(globals.VerboseFlag.Names, &rawVerbose, false, globals.VerboseFlag.Help)
 	setFlag(globals.JsonFlag.Names, &rawJSON, false, globals.JsonFlag.Help)
@@ -99,12 +98,12 @@ func getFlags() {
 	setFlag(globals.ToppFlag.Names, &top_p, 1.0, globals.ToppFlag.Help)
 	setFlag(globals.FrequenceFlag.Names, &frequence, 1.2, globals.FrequenceFlag.Help)
 	setFlag(globals.PresenceFlag.Names, &presence, 0.3, globals.PresenceFlag.Help)
-	setFlag(globals.BestOfFlag.Names, &bestof, 1, globals.BestOfFlag.Help)
 	flag.Parse()
-    // the json and verbose flags dont need values
+	// the json and verbose flags dont need values
 	json = areFlagsPassed(globals.JsonFlag.Names)
 	verbose = areFlagsPassed(globals.VerboseFlag.Names)
 }
+
 // to check for flag validation
 func validate(input string) error {
 	if len(input) == 0 {
@@ -113,6 +112,7 @@ func validate(input string) error {
 	}
 	return nil
 }
+
 // initialize review-gpt
 func Init() {
 	// Get the flags
@@ -127,5 +127,5 @@ func Init() {
 			Msg(msg)
 	}
 	// request the api
-	request.RequestApi(input, model, maxtokens, temperature, top_p, frequence, presence, bestof)
+	request.RequestApi(input, model, maxtokens, temperature, top_p, frequence, presence)
 }

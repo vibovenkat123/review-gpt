@@ -10,6 +10,7 @@ type Model = string
 
 // enums for the models
 const (
+	Turbo   Model = "gpt-3.5-turbo"
 	Davinci Model = "text-davinci-003"
 	Curie   Model = "text-curie-001"
 	Babbage Model = "text-babbage-001"
