@@ -27,6 +27,7 @@ type Body struct {
 	Frequence_Pen float64 `json:"frequency_penalty"`
 	Presence_Pen  float64 `json:"presence_penalty"`
 }
+// the struct to use for gpt3.5
 type TurboBody struct {
 	Model         Model     `json:"model"`
 	Messages      []Message `json:"messages"`
@@ -130,7 +131,7 @@ func CheckFormat(body Body) error {
 // request the improvements
 func RequestImprovements(key string, gitDiff string, model Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64) ([]string, error) {
 	answers := []string{}
-	// get the body struct
+	// get the normal GPT3 body struct 
 	params := Body{
 		Model:         model,
 		Temperature:   temperature,
@@ -139,6 +140,7 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 		Frequence_Pen: frequence,
 		Presence_Pen:  presence,
 	}
+	// Get the strict for GPT3.5
 	turboParams := TurboBody{
 		Model:         model,
 		Temperature:   temperature,
@@ -160,26 +162,31 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	url := fmt.Sprintf("https://api.openai.com/v1/%v", endUrl)
 	// the instruction
 	promptInstruction := "explain the git diff below, and from a code reviewers perspective, tell me what i can improve on in the code (the '+' in the git diff is an added line, the '-' is a removed line). do not suggest changes already made in the git diff. do not explain the git diff. only  say what could be improved. also go into more detail, but not too much"
+	// The background information for turbo/gpt3.5
 	turboPromptInstruction := "You are a very intelligent code reviewer. You take in a git diff from a user(the '+' in the git diff is an added line, the '-' is a removed line), and then list all the improvements the user could have made. Go in to more detail, but not to the point where its too much. You will never write any code, only tell the improvements"
 	// get the prompt using sprintf
 	prompt := fmt.Sprintf("%#v\n%#v\n", promptInstruction, gitDiff)
 	if model == Turbo {
-		// get the prompt using sprintf
+		// The background message
 		sysMessage := Message{
 			Role:    "system",
 			Content: turboPromptInstruction,
 		}
+		// The input (what they respond to)
 		usrMessage := Message{
 			Role:    "user",
 			Content: gitDiff,
 		}
+		// the message for turbo
 		turboParams.Messages = []Message{sysMessage, usrMessage}
 	} else {
+		// set the gpt3 prompt to the prompt defined before
 		params.Prompt = prompt
 	}
 	// marshal the params
 	var jsonParams []byte
 	var err error
+	// marshal the correct param struct
 	if model == Turbo {
 		jsonParams, err = json.Marshal(turboParams)
 	} else {
@@ -218,11 +225,12 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	choices := apiReq.Choices
 	// append it to the answers array
 	for _, c := range choices {
-		// if its not empty
+		// if its GPT3.5, its structured differently
 		if model == Turbo {
 			answers = append(answers, c.Message.Content)
 			continue
 		}
+		// if its not empty
 		if len(c.Text) != 0 {
 			answers = append(answers, c.Text)
 		}
