@@ -93,7 +93,7 @@ func getFlags() {
 	setFlag(globals.InputFlag.Names, &input, "", globals.InputFlag.Help)
 	setFlag(globals.VerboseFlag.Names, &rawVerbose, false, globals.VerboseFlag.Help)
 	setFlag(globals.JsonFlag.Names, &rawJSON, false, globals.JsonFlag.Help)
-	setFlag(globals.ModelFlag.Names, &model, "text-davinci-003", globals.ModelFlag.Help)
+	setFlag(globals.ModelFlag.Names, &model, "gpt-3.5-turbo", globals.ModelFlag.Help)
 	setFlag(globals.MaxTokenFlag.Names, &maxtokens, 500, globals.MaxTokenFlag.Help)
 	setFlag(globals.TemperatureFlag.Names, &temperature, 0.2, globals.TemperatureFlag.Help)
 	setFlag(globals.ToppFlag.Names, &top_p, 1.0, globals.ToppFlag.Help)

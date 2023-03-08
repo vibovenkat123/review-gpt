@@ -35,7 +35,7 @@ These options control the way GPT3 processes information.
 
   * `-m` <model>, `--model` <model>:
     Request a specific model for GPT3 to use. 
-    It can either be `text-davinci-003`, `text-curie-001`, `text-babbage-001`, or `text-ada-001`.
+    It can either be `gpt-3.5-turbo`, `text-davinci-003`, `text-curie-001`, `text-babbage-001`, or `text-ada-001`.
     It must be in the format of a string.
     If this option is not given, it will default to `text-davinci-003`.
 

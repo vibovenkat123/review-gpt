@@ -19,4 +19,5 @@ foo@bar:~$ rgpt --input "$(git diff file.txt)" --model "text-davinci-003" --max 
 ```console
 foo@bar:~$ rgpt --input "$(git diff file.txt)"
 ```
+
 ## You can see all the flags and more info on [The manual page](https://github.com/vibovenkat123/review-gpt/blob/main/man/rgpt.1.ronn)
