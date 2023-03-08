@@ -32,6 +32,7 @@ const (
 	topPHelp        string = "An alternative to sampling with temperature, called nucleus sampling, where the model considers the results of the tokens with top_p probability mass. So 0.1 means only the tokens comprising the top 10% probability mass are considered."
 	frequenceHelp   string = "Number between -2.0 and 2.0. Positive values penalize new tokens based on their existing frequency in the text so far, decreasing the model's likelihood to repeat the same line verbatim."
 	presenceHelp    string = "Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far, increasing the model's likelihood to talk about new topics."
+	bestOfHelp      string = "Generates best_of completions server-side and returns the 'best' (the one with the highest log probability per token). Results cannot be streamed."
 )
 
 // the flag arrays
@@ -45,6 +46,7 @@ var (
 	toppFlagNames        []string = []string{"topp"}
 	frequenceFlagNames   []string = []string{"frequence", "freq", "fr", "f"}
 	presenceFlagNames    []string = []string{"pr", "presence", "p", "pres"}
+	bestOfFlagNames      []string = []string{"bo", "bestof", "best"}
 )
 
 // the flags themselves
@@ -84,6 +86,10 @@ var (
 	PresenceFlag = Flag{
 		Help:  presenceHelp,
 		Names: presenceFlagNames,
+	}
+	BestOfFlag = Flag{
+		Help:  bestOfHelp,
+		Names: bestOfFlagNames,
 	}
 )
 var Log zerolog.Logger

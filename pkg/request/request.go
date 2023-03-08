@@ -26,6 +26,7 @@ type Body struct {
 	Top_P         float64 `json:"top_p"`
 	Frequence_Pen float64 `json:"frequency_penalty"`
 	Presence_Pen  float64 `json:"presence_penalty"`
+    Best_Of       int     `json:"best_of"`
 }
 // the struct to use for gpt3.5
 type TurboBody struct {
@@ -80,10 +81,10 @@ func LogVerbose(msg string) {
 }
 
 // request the api
-func RequestApi(gitDiff string, model Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64) {
+func RequestApi(gitDiff string, model Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) {
 	LogVerbose("Requesting for improvements")
 	// get all the improvements
-	improvements, err := RequestImprovements(globals.OpenaiKey, gitDiff, model, maxtokens, temperature, top_p, frequence, presence)
+	improvements, err := RequestImprovements(globals.OpenaiKey, gitDiff, model, maxtokens, temperature, top_p, frequence, presence, bestof)
 	LogVerbose("Got improvements")
 	if err != nil {
 		globals.Log.Error().
@@ -124,12 +125,16 @@ func CheckFormat(body Body) error {
 	if body.Frequence_Pen < FrequenceMin || body.Frequence_Pen > FrequenceMax {
 		return ErrWrongFrequenceRange
 	}
+    // the best_of
+    if  body.Best_Of < BestOfMin || body.Best_Of > BestOfMax {
+        return ErrWrongBestOfRange
+    }
 	// if its all good
 	return nil
 }
 
 // request the improvements
-func RequestImprovements(key string, gitDiff string, model Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64) ([]string, error) {
+func RequestImprovements(key string, gitDiff string, model Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) ([]string, error) {
 	answers := []string{}
 	// get the normal GPT3 body struct 
 	params := Body{
@@ -139,6 +144,7 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 		Top_P:         top_p,
 		Frequence_Pen: frequence,
 		Presence_Pen:  presence,
+        Best_Of: bestof,
 	}
 	// Get the strict for GPT3.5
 	turboParams := TurboBody{
@@ -163,7 +169,7 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	// the instruction
 	promptInstruction := "explain the git diff below, and from a code reviewers perspective, tell me what i can improve on in the code (the '+' in the git diff is an added line, the '-' is a removed line). do not suggest changes already made in the git diff. do not explain the git diff. only  say what could be improved. also go into more detail, but not too much"
 	// The background information for turbo/gpt3.5
-	turboPromptInstruction := "You are a very intelligent code reviewer. You take in a git diff from a user(the '+' in the git diff is an added line, the '-' is a removed line), and then list all the improvements the user could have made. Go in to more detail, but not to the point where its too much. You will never write any code, only tell the improvements"
+	turboPromptInstruction := "You are a very intelligent code reviewer. You will take in a git diff, and tell the user what they could have improved (like a code review) based on analyzing the git diff in order to see whats changed.\nYou will not provide any examples/code snippets in your answer"
 	// get the prompt using sprintf
 	prompt := fmt.Sprintf("%#v\n%#v\n", promptInstruction, gitDiff)
 	if model == Turbo {
