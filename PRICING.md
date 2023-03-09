@@ -18,5 +18,3 @@ Turbo is a GPT3.5 model. It is more powerful and cheaper than any of the rest of
 ### The `max` flag
 
 The `--max` flag represents the max tokens that GPT can use while generating code. If you decrease the flag, it will generate less tokens, thus making it cheaper.
-
-
