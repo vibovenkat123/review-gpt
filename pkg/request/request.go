@@ -19,7 +19,7 @@ import (
 
 // the struct to use for the body of the request
 type Body struct {
-	Model         Model   `json:"model"`
+	Model         globals.Model   `json:"model"`
 	Prompt        string  `json:"prompt"`
 	Temperature   float64 `json:"temperature"`
 	Max_Tokens    int     `json:"max_tokens"`
@@ -30,7 +30,7 @@ type Body struct {
 }
 // the struct to use for gpt3.5
 type TurboBody struct {
-	Model         Model     `json:"model"`
+	Model         globals.Model     `json:"model"`
 	Messages      []Message `json:"messages"`
 	Temperature   float64   `json:"temperature"`
 	Max_Tokens    int       `json:"max_tokens"`
@@ -81,7 +81,7 @@ func LogVerbose(msg string) {
 }
 
 // request the api
-func RequestApi(gitDiff string, model Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) {
+func RequestApi(gitDiff string, model globals.Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) {
 	LogVerbose("Requesting for improvements")
 	// get all the improvements
 	improvements, err := RequestImprovements(globals.OpenaiKey, gitDiff, model, maxtokens, temperature, top_p, frequence, presence, bestof)
@@ -106,35 +106,35 @@ func RequestApi(gitDiff string, model Model, maxtokens int, temperature float64,
 // checking the format
 func CheckFormat(body Body) error {
 	// model
-	if body.Model != Davinci && body.Model != Ada && body.Model != Curie && body.Model != Babbage && body.Model != Turbo {
-		return ErrWrongModel
+	if body.Model != globals.Davinci && body.Model != globals.Ada && body.Model != globals.Curie && body.Model != globals.Babbage && body.Model != globals.Turbo {
+		return globals.ErrWrongModel
 	}
 	// temperature
-	if body.Temperature < TempRangeMin || body.Temperature > TempRangeMax {
-		return ErrWrongTempRange
+	if body.Temperature < globals.TempRangeMin || body.Temperature > globals.TempRangeMax {
+		return globals.ErrWrongTempRange
 	}
 	// top_p
-	if body.Top_P < TopPMin || body.Top_P > TopPMax {
-		return ErrWrongToppRange
+	if body.Top_P < globals.TopPMin || body.Top_P > globals.TopPMax {
+		return globals.ErrWrongToppRange
 	}
 	// presense penalty
-	if body.Presence_Pen < PresenceMin || body.Presence_Pen > PresenceMax {
-		return ErrWrongPresenceRange
+	if body.Presence_Pen < globals.PresenceMin || body.Presence_Pen > globals.PresenceMax {
+		return globals.ErrWrongPresenceRange
 	}
 	// frequence penalty
-	if body.Frequence_Pen < FrequenceMin || body.Frequence_Pen > FrequenceMax {
-		return ErrWrongFrequenceRange
+	if body.Frequence_Pen < globals.FrequenceMin || body.Frequence_Pen > globals.FrequenceMax {
+		return globals.ErrWrongFrequenceRange
 	}
     // the best_of
-    if  body.Best_Of < BestOfMin || body.Best_Of > BestOfMax {
-        return ErrWrongBestOfRange
+    if  body.Best_Of < globals.BestOfMin || body.Best_Of > globals.BestOfMax {
+        return globals.ErrWrongBestOfRange
     }
 	// if its all good
 	return nil
 }
 
 // request the improvements
-func RequestImprovements(key string, gitDiff string, model Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) ([]string, error) {
+func RequestImprovements(key string, gitDiff string, model globals.Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) ([]string, error) {
 	answers := []string{}
 	// get the normal GPT3 body struct 
 	params := Body{
@@ -161,7 +161,7 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	}
 	// the end of the url
 	endUrl := "completions"
-	if model == Turbo {
+	if model == globals.Turbo {
 		endUrl = "chat/completions"
 	}
 	// request url
@@ -172,7 +172,7 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	turboPromptInstruction := "You are a very intelligent code reviewer. You will take in a git diff, and tell the user what they could have improved (like a code review) based on analyzing the git diff in order to see whats changed.\nYou will not provide any examples/code snippets in your answer"
 	// get the prompt using sprintf
 	prompt := fmt.Sprintf("%#v\n%#v\n", promptInstruction, gitDiff)
-	if model == Turbo {
+	if model == globals.Turbo {
 		// The background message
 		sysMessage := Message{
 			Role:    "system",
@@ -193,7 +193,7 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	var jsonParams []byte
 	var err error
 	// marshal the correct param struct
-	if model == Turbo {
+	if model == globals.Turbo {
 		jsonParams, err = json.Marshal(turboParams)
 	} else {
 		jsonParams, err = json.Marshal(params)
@@ -232,7 +232,7 @@ func RequestImprovements(key string, gitDiff string, model Model, maxtokens int,
 	// append it to the answers array
 	for _, c := range choices {
 		// if its GPT3.5, its structured differently
-		if model == Turbo {
+		if model == globals.Turbo {
 			answers = append(answers, c.Message.Content)
 			continue
 		}
