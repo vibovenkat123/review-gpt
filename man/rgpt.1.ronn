@@ -37,7 +37,7 @@ These options control the way GPT3 processes information.
     Request a specific model for GPT3 to use. 
     It can either be `turbo`, `davinci`, `curie`, `babbage`, or `ada`.
     It must be in the format of a string.
-    If this option is not given, it will default to `text-davinci-003`.
+    If this option is not given, it will default to `turbo`.
 
   * `--max` <max_tokens>:
     The maximum tokens GPT3 can use well generating a response back.
