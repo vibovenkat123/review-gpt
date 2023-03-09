@@ -85,7 +85,7 @@ copy_manual() {
     wait_for_quit
     info "Going to man directory"
     cd /usr/local/share/man/man1
-    if [ -f "$man_file_path" || -f "$target_man_file_path" ]
+    if [[ -f "$man_file_path" || -f "$target_man_file_path" ]]
     then
         change "Deleting already existing manual files"
         sudo rm -f $man_file_path
