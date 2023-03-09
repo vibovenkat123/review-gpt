@@ -7,17 +7,17 @@ RGPT(1) -- Automate code reviews from your terminal
 ## DESCRIPTION
 The **rgpt** command automatically code reviews your code - straight from your terminal
 
-In the default settings, `rgpt` takes a <diff> file (e.g, a git(1) diff) and asks GPT3 on how to improve it.
+In the default settings, `rgpt` takes a <diff> file (e.g, a git(1) diff) and asks GPT on how to improve it.
 The `--json` and `--verbose` options change the output of the CLI. These options can be used together. 
 
-The `max`,  `temp`, `frequence`, `presence`, and `bestof` options dictate how GPT3 will parse the <diff>.
+The `max`,  `temp`, `frequence`, `presence`, and `bestof` options dictate how GPT will parse the <diff>.
 
 The `rgpt` needs an input <diff> in order to work. Every other flag is optional.
 
 ## THE DIFF
 
 The `rgpt` command requires a input flag. This is input flag is recommended to be a <diff>.
-Since GPT3 only allows a certain amount of <tokens>, It is recommended you only input a git diff for one file at a time.
+Since GPT only allows a certain amount of <tokens>, It is recommended you only input a git diff for one file at a time.
 
 ## OPTIONS
 These options control how the output of the CLI is formatted.
@@ -31,20 +31,20 @@ These options control how the output of the CLI is formatted.
     Generate verbose/long output. This can be needed if you are debugging, or if you just want more information.
     It generates logs like `Requesting improvements`, `Asking GPT`, etc.
 
-These options control the way GPT3 processes information.
+These options control the way GPT processes information.
 
   * `-m` <model>, `--model` <model>:
-    Request a specific model for GPT3 to use. 
+    Request a specific model for GPT to use. 
     It can either be `turbo`, `davinci`, `curie`, `babbage`, or `ada`.
     It must be in the format of a string.
     If this option is not given, it will default to `turbo`.
 
   * `--max` <max_tokens>:
-    The maximum tokens GPT3 can use well generating a response back.
+    The maximum tokens GPT can use well generating a response back.
     To convert characters/text into tokens, go to OpenAI's <token>izer page.
 
   * `-t` <temperature>, `--temp` <temperature>, `--temperature` <temperature>:
-    How deterministic GPT3 is. The temperature must be between 0 and 2. 
+    How deterministic GPT is. The temperature must be between 0 and 2. 
     If the <temperature> is higher like `1.2` the output will be more random.
     Lower numbers such as `0.2` will make the output more deterministic and focused.
 
@@ -62,5 +62,5 @@ These options control the way GPT3 processes information.
     A number between -2.0 and 2.0. Positive values penalize more, so it increases the likelihood of the output being unique.
 
   * `--bo` <best_of>, `--best` <best_of>, `bestof` <best_of>:
-    Generates more completions on GPT3's server and returns the best one.
+    Generates more completions on GPT's server and returns the best one.
 
