@@ -9,9 +9,9 @@ Since this project is open source, you don't need to pay ***me*** anything. Howe
 
 The `--model` flag represents the models for GPT. You can find the list at [There model page](https://platform.openai.com/docs/models/gpt-3-5)
 
-Out of those 6 models, I would only recommend **gpt-3-5-turbo**
+Out of those 5 models, I would only recommend **gpt-3-5-turbo**
 
-Turbo is a GPT3.5 model. It is more powerful than any of GPT3's model, and it is 10x cheaper than GPT3's most powerful model.
+Turbo is a GPT3.5 model. It is more powerful and cheaper than any of the rest of the models.
 
 ### The `max` flag
 
