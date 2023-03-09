@@ -8,6 +8,8 @@ import (
 	"github.com/vibovenkat123/review-gpt/pkg/globals"
 	// to call the API
 	"github.com/vibovenkat123/review-gpt/pkg/request"
+    // for coverting to lowercase
+    "strings"
 )
 
 // flag variables
@@ -93,7 +95,7 @@ func getFlags() {
 	setFlag(globals.InputFlag.Names, &input, "", globals.InputFlag.Help)
 	setFlag(globals.VerboseFlag.Names, &rawVerbose, false, globals.VerboseFlag.Help)
 	setFlag(globals.JsonFlag.Names, &rawJSON, false, globals.JsonFlag.Help)
-	setFlag(globals.ModelFlag.Names, &model, "gpt-3.5-turbo", globals.ModelFlag.Help)
+	setFlag(globals.ModelFlag.Names, &model, "turbo", globals.ModelFlag.Help)
 	setFlag(globals.MaxTokenFlag.Names, &maxtokens, 500, globals.MaxTokenFlag.Help)
 	setFlag(globals.TemperatureFlag.Names, &temperature, 0.2, globals.TemperatureFlag.Help)
 	setFlag(globals.ToppFlag.Names, &top_p, 1.0, globals.ToppFlag.Help)
@@ -101,6 +103,8 @@ func getFlags() {
 	setFlag(globals.PresenceFlag.Names, &presence, 0.3, globals.PresenceFlag.Help)
 	setFlag(globals.BestOfFlag.Names, &bestof, 1, globals.BestOfFlag.Help)
 	flag.Parse()
+    // make the model lowercase
+    model = strings.ToLower(model)
     // the json and verbose flags dont need values
 	json = areFlagsPassed(globals.JsonFlag.Names)
 	verbose = areFlagsPassed(globals.VerboseFlag.Names)

@@ -11,7 +11,7 @@
 ## Example with all flags:
 
 ```console
-foo@bar:~$ rgpt --input "$(git diff file.txt)" --model "text-davinci-003" --max 500 --temp 0.2 --topp 1 --freq 1.2 --pres 0.3 --bestof 1 --json --verbose
+foo@bar:~$ rgpt --input "$(git diff file.txt)" --model "davinci" --max 500 --temp 0.2 --topp 1 --freq 1.2 --pres 0.3 --bestof 1 --json --verbose
 ```
 
 ## Example with necessary flags:

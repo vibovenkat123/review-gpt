@@ -33,7 +33,7 @@ const (
 	Babbage Model = "text-babbage-001"
 	Ada     Model = "text-ada-001"
 )
-var models []Model = []Model{Turbo, Davinci, Curie, Babbage, Ada}
+var Models map[string]Model = map[string]Model{"turbo": Turbo, "davinci": Davinci, "curie": Curie, "babbage": Babbage, "ada": Ada}
 // variables for the minimum and maximum ranges
 var (
 	TempRangeMin float64 = 0

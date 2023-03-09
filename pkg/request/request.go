@@ -88,12 +88,6 @@ func RequestApi(gitDiff string, model globals.Model, maxtokens int, temperature 
 	LogVerbose("Got improvements")
 	if err != nil {
 		globals.Log.Error().
-			Str("Model", model).
-			Int("Max Tokens", maxtokens).
-			Float64("Temperature", temperature).
-			Float64("Top_P", top_p).
-			Float64("Frequence Penalty", frequence).
-			Float64("Presence Penalty", presence).
 			Err(err).
 			Msg("Error while getting improvements")
 	}
@@ -106,9 +100,10 @@ func RequestApi(gitDiff string, model globals.Model, maxtokens int, temperature 
 // checking the format
 func CheckFormat(body Body) error {
 	// model
-	if body.Model != globals.Davinci && body.Model != globals.Ada && body.Model != globals.Curie && body.Model != globals.Babbage && body.Model != globals.Turbo {
-		return globals.ErrWrongModel
-	}
+    _, rawModel := globals.Models[body.Model]
+    if !rawModel {
+        return globals.ErrWrongModel
+    }
 	// temperature
 	if body.Temperature < globals.TempRangeMin || body.Temperature > globals.TempRangeMax {
 		return globals.ErrWrongTempRange
@@ -159,6 +154,10 @@ func RequestImprovements(key string, gitDiff string, model globals.Model, maxtok
 	if err := CheckFormat(params); err != nil {
 		return answers, err
 	}
+    // make model the actual model
+    model = globals.Models[model]
+    params.Model = model
+    turboParams.Model = model
 	// the end of the url
 	endUrl := "completions"
 	if model == globals.Turbo {
