@@ -8,7 +8,7 @@ RGPT(1) -- Automate code reviews from your terminal
 The **rgpt** command automatically code reviews your code - straight from your terminal
 
 In the default settings, `rgpt` takes a <diff> file (e.g, a git(1) diff) and asks GPT on how to improve it.
-The `--json` and `--verbose` options change the output of the CLI. These options can be used together. 
+The `--json` and `--verbose` options change the output of the CLI. These options can be used together.
 
 The `max`,  `temp`, `frequence`, `presence`, and `bestof` options dictate how GPT will parse the <diff>.
 
@@ -34,8 +34,8 @@ These options control how the output of the CLI is formatted.
 These options control the way GPT processes information.
 
   * `-m` <model>, `--model` <model>:
-    Request a specific model for GPT to use. 
-    It can either be `turbo`, `davinci`, `curie`, `babbage`, or `ada`.
+    Request a specific model for GPT to use.
+    It can either be `turbo`, `davinci`, `curie`, `babbage`, `gpt4`, or `ada`.
     It must be in the format of a string.
     If this option is not given, it will default to `turbo`.
 
@@ -44,13 +44,13 @@ These options control the way GPT processes information.
     To convert characters/text into tokens, go to OpenAI's <token>izer page.
 
   * `-t` <temperature>, `--temp` <temperature>, `--temperature` <temperature>:
-    How deterministic GPT is. The temperature must be between 0 and 2. 
+    How deterministic GPT is. The temperature must be between 0 and 2.
     If the <temperature> is higher like `1.2` the output will be more random.
     Lower numbers such as `0.2` will make the output more deterministic and focused.
 
   * `--topp` <top_p>:
     An alternative to <temperature>. The <top_p> must be between 0 and 1.
-    The model considers the results of the tokens with <top_p> probability mass. 
+    The model considers the results of the tokens with <top_p> probability mass.
     So 0.1 means only the tokens comprising the top 10% probability mass are considered.
 
   * `-f` <frequence_penalty>, `--fr` <frequence_penalty>, `freq` <frequence_penalty>, `frequence` <frequence_penalty>:

@@ -19,18 +19,19 @@ import (
 
 // the struct to use for the body of the request
 type Body struct {
-	Model         globals.Model   `json:"model"`
+	Model         string  `json:"model"`
 	Prompt        string  `json:"prompt"`
 	Temperature   float64 `json:"temperature"`
 	Max_Tokens    int     `json:"max_tokens"`
 	Top_P         float64 `json:"top_p"`
 	Frequence_Pen float64 `json:"frequency_penalty"`
 	Presence_Pen  float64 `json:"presence_penalty"`
-    Best_Of       int     `json:"best_of"`
+	Best_Of       int     `json:"best_of"`
 }
-// the struct to use for gpt3.5
-type TurboBody struct {
-	Model         globals.Model     `json:"model"`
+
+// the struct to use for the chat models
+type ChatBody struct {
+	Model         string    `json:"model"`
 	Messages      []Message `json:"messages"`
 	Temperature   float64   `json:"temperature"`
 	Max_Tokens    int       `json:"max_tokens"`
@@ -81,7 +82,7 @@ func LogVerbose(msg string) {
 }
 
 // request the api
-func RequestApi(gitDiff string, model globals.Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) {
+func RequestApi(gitDiff string, model string, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) {
 	LogVerbose("Requesting for improvements")
 	// get all the improvements
 	improvements, err := RequestImprovements(globals.OpenaiKey, gitDiff, model, maxtokens, temperature, top_p, frequence, presence, bestof)
@@ -98,12 +99,11 @@ func RequestApi(gitDiff string, model globals.Model, maxtokens int, temperature 
 }
 
 // checking the format
-func CheckFormat(body Body) error {
+func CheckFormat(body Body, model bool) error {
 	// model
-    _, rawModel := globals.Models[body.Model]
-    if !rawModel {
-        return globals.ErrWrongModel
-    }
+	if !model {
+		return globals.ErrWrongModel
+	}
 	// temperature
 	if body.Temperature < globals.TempRangeMin || body.Temperature > globals.TempRangeMax {
 		return globals.ErrWrongTempRange
@@ -120,30 +120,32 @@ func CheckFormat(body Body) error {
 	if body.Frequence_Pen < globals.FrequenceMin || body.Frequence_Pen > globals.FrequenceMax {
 		return globals.ErrWrongFrequenceRange
 	}
-    // the best_of
-    if  body.Best_Of < globals.BestOfMin || body.Best_Of > globals.BestOfMax {
-        return globals.ErrWrongBestOfRange
-    }
+	// the best_of
+	if body.Best_Of < globals.BestOfMin || body.Best_Of > globals.BestOfMax {
+		return globals.ErrWrongBestOfRange
+	}
 	// if its all good
 	return nil
 }
 
 // request the improvements
-func RequestImprovements(key string, gitDiff string, model globals.Model, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) ([]string, error) {
+func RequestImprovements(key string, gitDiff string, rawModel string, maxtokens int, temperature float64, top_p float64, frequence float64, presence float64, bestof int) ([]string, error) {
 	answers := []string{}
-	// get the normal GPT3 body struct 
+	model := globals.Models[rawModel]
+	_, hasModel := globals.Models[rawModel]
+	// get the normal GPT3 body struct
 	params := Body{
-		Model:         model,
+		Model:         model.Name,
 		Temperature:   temperature,
 		Max_Tokens:    maxtokens,
 		Top_P:         top_p,
 		Frequence_Pen: frequence,
 		Presence_Pen:  presence,
-        Best_Of: bestof,
+		Best_Of:       bestof,
 	}
-	// Get the strict for GPT3.5
-	turboParams := TurboBody{
-		Model:         model,
+	// Get the struct for the chat models
+	chatParams := ChatBody{
+		Model:         model.Name,
 		Temperature:   temperature,
 		Max_Tokens:    maxtokens,
 		Top_P:         top_p,
@@ -151,31 +153,30 @@ func RequestImprovements(key string, gitDiff string, model globals.Model, maxtok
 		Presence_Pen:  presence,
 	}
 	// if the params are in the wrong format return an error
-	if err := CheckFormat(params); err != nil {
+	if err := CheckFormat(params, hasModel); err != nil {
 		return answers, err
 	}
-    // make model the actual model
-    model = globals.Models[model]
-    params.Model = model
-    turboParams.Model = model
+	// make model the actual model
+	params.Model = model.Name
+	chatParams.Model = model.Name
 	// the end of the url
 	endUrl := "completions"
-	if model == globals.Turbo {
+	if model.Chat {
 		endUrl = "chat/completions"
 	}
 	// request url
 	url := fmt.Sprintf("https://api.openai.com/v1/%v", endUrl)
 	// the instruction
 	promptInstruction := "explain the git diff below, and from a code reviewers perspective, tell me what i can improve on in the code (the '+' in the git diff is an added line, the '-' is a removed line). do not suggest changes already made in the git diff. do not explain the git diff. only  say what could be improved. also go into more detail, but not too much"
-	// The background information for turbo/gpt3.5
-	turboPromptInstruction := "You are a very intelligent code reviewer. You will take in a git diff, and tell the user what they could have improved (like a code review) based on analyzing the git diff in order to see whats changed.\nYou will not provide any examples/code snippets in your answer"
+	// The background information for chat models
+	chatPromptInstructions := "You are a very intelligent code reviewer. You will take in a git diff, and tell the user what they could have improved (like a code review) based on analyzing the git diff in order to see whats changed.\nYou will not provide any examples/code snippets in your answer"
 	// get the prompt using sprintf
 	prompt := fmt.Sprintf("%#v\n%#v\n", promptInstruction, gitDiff)
-	if model == globals.Turbo {
+	if model.Chat {
 		// The background message
 		sysMessage := Message{
 			Role:    "system",
-			Content: turboPromptInstruction,
+			Content: chatPromptInstructions,
 		}
 		// The input (what they respond to)
 		usrMessage := Message{
@@ -183,7 +184,7 @@ func RequestImprovements(key string, gitDiff string, model globals.Model, maxtok
 			Content: gitDiff,
 		}
 		// the message for turbo
-		turboParams.Messages = []Message{sysMessage, usrMessage}
+		chatParams.Messages = []Message{sysMessage, usrMessage}
 	} else {
 		// set the gpt3 prompt to the prompt defined before
 		params.Prompt = prompt
@@ -192,8 +193,8 @@ func RequestImprovements(key string, gitDiff string, model globals.Model, maxtok
 	var jsonParams []byte
 	var err error
 	// marshal the correct param struct
-	if model == globals.Turbo {
-		jsonParams, err = json.Marshal(turboParams)
+	if model.Chat {
+		jsonParams, err = json.Marshal(chatParams)
 	} else {
 		jsonParams, err = json.Marshal(params)
 	}
@@ -230,8 +231,8 @@ func RequestImprovements(key string, gitDiff string, model globals.Model, maxtok
 	choices := apiReq.Choices
 	// append it to the answers array
 	for _, c := range choices {
-		// if its GPT3.5, its structured differently
-		if model == globals.Turbo {
+		// if its a chat model, its structured differently
+		if model.Chat {
 			answers = append(answers, c.Message.Content)
 			continue
 		}

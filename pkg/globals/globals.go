@@ -1,13 +1,13 @@
 package globals
 
 import (
+	"errors"
 	"fmt"
 	"github.com/joho/godotenv"
 	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"os"
 	"strings"
-    "errors"
 )
 
 // the openapi key
@@ -23,17 +23,23 @@ type Flag struct {
 }
 
 // enum types
-type Model = string
+type Model struct {
+	Chat bool
+	Name string
+}
 
 // enums for the models
-const (
-	Turbo   Model = "gpt-3.5-turbo"
-	Davinci Model = "text-davinci-003"
-	Curie   Model = "text-curie-001"
-	Babbage Model = "text-babbage-001"
-	Ada     Model = "text-ada-001"
+var (
+	Turbo   Model = Model{Name: "gpt-3.5-turbo", Chat: true}
+	Davinci Model = Model{Name: "text-davinci-003", Chat: false}
+	Curie   Model = Model{Name: "text-curie-001", Chat: false}
+	Babbage Model = Model{Name: "text-babbage-001", Chat: false}
+	Ada     Model = Model{Name: "text-ada-001", Chat: false}
+	GPT4    Model = Model{Name: "gpt-4", Chat: true}
 )
-var Models map[string]Model = map[string]Model{"turbo": Turbo, "davinci": Davinci, "curie": Curie, "babbage": Babbage, "ada": Ada}
+
+var Models = map[string]Model{"turbo": Turbo, "davinci": Davinci, "curie": Curie, "babbage": Babbage, "ada": Ada, "gpt4": GPT4}
+
 // variables for the minimum and maximum ranges
 var (
 	TempRangeMin float64 = 0

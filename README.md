@@ -14,7 +14,7 @@
 
 # What is Review-GPT (RGPT)
 
-Review GPT is an automated code review tool that uses GPT3. This can greatly reduce the amount of time given for code reviews, thus making your development faster. It takes in a git diff, and tells you what could be improved with it.
+Review GPT is an automated code review tool that uses GPT3 and GPT4. This can greatly reduce the amount of time given for code reviews, thus making your development faster. It takes in a git diff, and tells you what could be improved with it.
 <br/>
 <br/>
 
@@ -34,6 +34,6 @@ See [INSTALLATION.md](/INSTALLATION.md) for more information on how to install, 
 <br/>
 <br/>
 
-# GPT Pricing 
+# GPT Pricing
 
 See [PRICING.md](/PRICING.md) for information about the GPT pricing system and what you can do to cut costs.
