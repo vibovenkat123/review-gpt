@@ -56,12 +56,12 @@ var (
 
 // the errors to use for wrong formats
 var (
-	ErrWrongModel          error = errors.New(fmt.Sprintf("The model you entered was not correct"))
-	ErrWrongTempRange      error = errors.New(fmt.Sprintf("The temperature is not in the correct range (%v <= temp <= %v)", TempRangeMin, TempRangeMax))
-	ErrWrongToppRange      error = errors.New(fmt.Sprintf("The top_p is not in the correct range (%v <= top_p <= %v)", TopPMin, TopPMax))
-	ErrWrongPresenceRange  error = errors.New(fmt.Sprintf("The presence penalty is not in the correct range (%v <= presence <= %v)", PresenceMin, PresenceMax))
-	ErrWrongFrequenceRange error = errors.New(fmt.Sprintf("The presence penalty is not in the correct range (%v <= frequence <= %v)", FrequenceMin, FrequenceMax))
-	ErrWrongBestOfRange    error = errors.New(fmt.Sprintf("The best of variable is not in the correct range (%v <= best of  <= %v)", BestOfMin, BestOfMax))
+	ErrWrongModel          error = errors.New("The model you entered was not correct")
+	ErrWrongTempRange      error = fmt.Errorf("The temperature is not in the correct range (%v <= temp <= %v)", TempRangeMin, TempRangeMax)
+	ErrWrongToppRange      error = fmt.Errorf("The top_p is not in the correct range (%v <= top_p <= %v)", TopPMin, TopPMax)
+	ErrWrongPresenceRange  error = fmt.Errorf("The presence penalty is not in the correct range (%v <= presence <= %v)", PresenceMin, PresenceMax)
+	ErrWrongFrequenceRange error = fmt.Errorf("The presence penalty is not in the correct range (%v <= frequence <= %v)", FrequenceMin, FrequenceMax)
+	ErrWrongBestOfRange    error = fmt.Errorf("The best of variable is not in the correct range (%v <= best of  <= %v)", BestOfMin, BestOfMax)
 	ErrWrongKey            error = errors.New("The API Kry you entered is either wrong or hasn't been set up with a paid account of GPT. You must sign up for a paid account at Openai GPT.")
 )
 

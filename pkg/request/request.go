@@ -10,7 +10,7 @@ import (
 	// for getting the api key
 	"github.com/vibovenkat123/review-gpt/pkg/globals"
 	// for reading the response
-	"io/ioutil"
+	"io"
 	// for errors
 	"errors"
 	// for the requests
@@ -206,6 +206,10 @@ func RequestImprovements(key string, gitDiff string, rawModel string, maxtokens 
 	// form a new request
 	LogVerbose("Creating new request")
 	req, err := http.NewRequest("POST", url, reqBody)
+	if err != nil {
+		globals.Log.Error().
+			Msg(fmt.Sprintf("Error sending request: %s", err))
+	}
 	// set the api key
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %v", key))
 	req.Header.Set("Content-Type", "application/json")
@@ -219,10 +223,14 @@ func RequestImprovements(key string, gitDiff string, rawModel string, maxtokens 
 	defer resp.Body.Close()
 	// get the body
 	LogVerbose("Got back the request information")
-	body, _ := ioutil.ReadAll(resp.Body)
+	body, _ := io.ReadAll(resp.Body)
 	apiReq := APIResponse{}
 	// unmarshal (put the json in a struct) the body
-	json.Unmarshal([]byte(string(body)), &apiReq)
+	err = json.Unmarshal([]byte(string(body)), &apiReq)
+	if err != nil {
+		globals.Log.Panic().
+			Msg(err.Error())
+	}
 	if apiReq.Err != nil {
 		err := apiReq.Err
 		return answers, errors.New(err.Message)
